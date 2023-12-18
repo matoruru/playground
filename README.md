@@ -1,2 +1,2 @@
-# matoruru/playground
+# Playground
 Collection of my playground folder
