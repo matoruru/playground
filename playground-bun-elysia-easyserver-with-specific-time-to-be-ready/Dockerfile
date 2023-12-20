@@ -7,6 +7,6 @@ FROM install as build
 COPY . .
 RUN bun run compile
 
-FROM gcr.io/distroless/base-debian12:debug
+FROM gcr.io/distroless/base-debian12:nonroot
 COPY --from=build /temp/build/app /
 ENTRYPOINT [ "/app" ]
