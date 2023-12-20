@@ -11,7 +11,9 @@ const app = new Elysia()
   .use(logger({
     level: 'info'
   }))
-  .get("/healthz", () => "ok").listen(env.PORT)
+  .get("/healthz", () => "ok")
+  .all("*", () => 'Try "GET /healthz"')
+  .listen(env.PORT)
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
