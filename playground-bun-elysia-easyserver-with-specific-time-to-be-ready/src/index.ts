@@ -12,7 +12,11 @@ const app = new Elysia()
     level: 'info'
   }))
   .get("/healthz", () => "ok")
-  .all("*", () => 'Try "GET /healthz"')
+  .get("/kill", () => {
+    console.log("This server is killed by someone.")
+    app.stop()
+  })
+  .all("*", () => 'Try "GET /healthz" or "GET /kill"')
   .listen(env.PORT)
 
 console.log(
