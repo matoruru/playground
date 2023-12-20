@@ -1,15 +1,13 @@
 # playground-bun-elysia-easyserver-with-specific-time-to-be-ready
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
-
 ## Development
 To start the development server run:
+
 ```bash
-bun run dev
+PORT=8000 TIME_TO_BE_READY=1000 bun run dev
 ```
+
+- `PORT` is the port number.
+- `TIME_TO_BE_READY` is the time until the server instance gets ready.
 
 Open http://localhost:3000/ with your browser to see the result.
