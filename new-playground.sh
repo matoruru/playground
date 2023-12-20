@@ -17,3 +17,6 @@ echo "# $folderName" > $folderName/README.md
 echo ✨ New playground \"$folderName\" has been created!
 ls -la $folderName
 
+git reset
+git add $folderName
+git commit -m "add: New playground \"$folderName\""
