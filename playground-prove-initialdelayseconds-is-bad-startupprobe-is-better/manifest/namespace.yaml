@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: playground-prove-ids-is-bad-sp-is-better
+  labels:
+    name: playground-prove-ids-is-bad-sp-is-better
