@@ -3,6 +3,10 @@
 set -eu
 
 playgroundName=
+if [ $# -eq 1 ]; then
+  playgroundName="$1"
+fi
+
 prefix='playground-'
 
 while [[ -z "$playgroundName" ]]; do
