@@ -14,7 +14,7 @@ By its `failureThreshold` and `periodSeconds`, you can replace a fixed time unti
 
 ## Proof
 
-**Just start-up**
+**Just after start-up**
 
 ![](imgs/just-after-apply.png)
 
