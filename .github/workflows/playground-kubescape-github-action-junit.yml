@@ -37,5 +37,5 @@ jobs:
       uses: dorny/test-reporter@v1
       with:
         name: Kubescape scan result
-        path: scan-result-junit.xml
+        path: scan-result-jaunit.xml
         reporter: jest-junit
