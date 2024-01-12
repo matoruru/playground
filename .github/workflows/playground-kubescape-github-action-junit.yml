@@ -29,5 +29,13 @@ jobs:
 
     - run: ls -la
 
-    - name: Scan Kustomize manifest
-      run: kubescape scan framework nsa --verbose -- playground-kubescape-github-action/manifest/
+    - name: 'Scan Kustomize manifest (format: JUnit XML)'
+      run: kubescape scan framework nsa --format junit --verbose -- playground-kubescape-github-action/manifest/ > scan-result-junit.xml
+
+    # https://github.com/marketplace/actions/test-reporter#example
+    - name: Scan result
+      uses: dorny/test-reporter@v1
+      with:
+        name: Kubescape scan result
+        path: scan-result-junit.xml
+        reporter: jest-junit
