@@ -30,4 +30,4 @@ jobs:
     - run: ls -la
 
     - name: Scan Kustomize manifest
-      run: echo "scan here"
+      run: kubescape scan framework nsa --verbose -- playground-kubescape-github-action/manifest/
