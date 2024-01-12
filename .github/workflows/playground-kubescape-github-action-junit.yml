@@ -32,6 +32,9 @@ jobs:
     - name: 'Scan Kustomize manifest (format: JUnit XML)'
       run: kubescape scan framework nsa --format junit --verbose -- playground-kubescape-github-action/manifest/ > scan-result-junit.xml
 
+    - name: Print result file
+      run: cat scan-result-junit.xml
+
     # https://github.com/marketplace/actions/test-reporter#example
     - name: Scan result
       uses: dorny/test-reporter@v1
