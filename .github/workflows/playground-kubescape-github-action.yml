@@ -19,8 +19,8 @@ jobs:
     - name: Install Kubescape
       run: curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
 
-    - name: `type kubescape`
+    - name: type kubescape
       run: type kubescape
 
     - name: Scan Kustomize manifest
-      run: 
+      run: echo "scan here"
