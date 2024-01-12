@@ -25,6 +25,8 @@ jobs:
     - name: type kubescape
       run: type kubescape
 
+    - uses: actions/checkout@v4
+
     - run: ls -la
 
     - name: Scan Kustomize manifest
