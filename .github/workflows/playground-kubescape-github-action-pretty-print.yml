@@ -30,7 +30,10 @@ jobs:
     - run: ls -la
 
     - name: 'Scan Kustomize manifest (format: Pretty print)'
-      run: kubescape scan framework nsa --verbose -- playground-kubescape-github-action/manifest/ > result.txt
+      run: |
+        echo '```' > result.txt
+        kubescape scan framework nsa --verbose -- playground-kubescape-github-action/manifest/ >> result.txt
+        echo '```' >> result.txt
 
     - name: Output to summary
       run: cat result.txt >> $GITHUB_STEP_SUMMARY
