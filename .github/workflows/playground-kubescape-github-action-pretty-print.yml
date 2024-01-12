@@ -31,7 +31,9 @@ jobs:
 
     - name: 'Scan Kustomize manifest (format: Pretty print)'
       run: |
-        echo '```' > result.txt
+        echo '# Kubescape Manifest scan result' > result.txt
+        echo >> result.txt
+        echo '```' >> result.txt
         kubescape scan framework nsa --verbose -- playground-kubescape-github-action/manifest/ >> result.txt
         echo '```' >> result.txt
 
