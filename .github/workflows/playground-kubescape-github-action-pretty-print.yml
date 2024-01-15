@@ -29,9 +29,19 @@ jobs:
 
     - run: ls -la
 
+    - name: Create result.txt
+      run: echo "# Kubescape Manifest scan result ($(TZ=JST-9 date))" > result.txt
+
     - name: 'Scan Kustomize manifest (format: Pretty print)'
       run: |
-        echo "## Kubescape Manifest scan result ($(TZ=JST-9 date))" > result.txt
+        echo "## Summary" >> result.txt
+        echo '```' >> result.txt
+        kubescape scan framework nsa -- playground-kubescape-github-action/manifest/ >> result.txt
+        echo '```' >> result.txt
+
+    - name: 'Scan Kustomize manifest (format: Pretty print --verbose)'
+      run: |
+        echo "## Scan details" >> result.txt
         echo >> result.txt
         echo '```' >> result.txt
         kubescape scan framework nsa --verbose -- playground-kubescape-github-action/manifest/ >> result.txt
