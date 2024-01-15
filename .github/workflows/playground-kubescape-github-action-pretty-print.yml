@@ -44,10 +44,11 @@ jobs:
         echo '```' >> summary.txt
         cat xx01 >> summary.txt
         echo '```' >> summary.txt
-        echo "<details><summary><h2>Scan details</h2></summary>" >> summary.txt
-        echo '    ```' >> summary.txt
+        echo "<details>" >> summary.txt
+        echo "  <summary><h2>Scan details</h2></summary>" >> summary.txt
+        echo '```' >> summary.txt
         cat xx00 >> summary.txt
-        echo '    ```' >> summary.txt
+        echo '```' >> summary.txt
         echo "</details>" >> summary.txt
 
     - name: Output to summary
