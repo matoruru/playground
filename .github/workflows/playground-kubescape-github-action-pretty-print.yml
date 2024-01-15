@@ -50,6 +50,5 @@ jobs:
         cat xx00 >> summary.txt
         echo '```' >> summary.txt
 
-
     - name: Output to summary
       run: cat summary.txt >> $GITHUB_STEP_SUMMARY
