@@ -52,7 +52,7 @@ jobs:
         echo "</details>" >> summary.txt
 
     - name: (debug)
-      run: cat summaruy.txt
+      run: cat summary.txt
 
     - name: Output to summary
       run: cat summary.txt >> $GITHUB_STEP_SUMMARY
