@@ -46,6 +46,7 @@ jobs:
         echo '```' >> summary.txt
         echo "<details>" >> summary.txt
         echo "  <summary><h2>Scan details</h2></summary>" >> summary.txt
+        echo >> summary.txt
         echo '```' >> summary.txt
         cat xx00 >> summary.txt
         echo '```' >> summary.txt
