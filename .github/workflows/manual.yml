@@ -1,0 +1,32 @@
+# This is a basic workflow that is manually triggered
+
+name: Create a PR by github-actions bot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set git user
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+      - name: Create a new branch
+        run: git switch -c "$(date +%s)"
+      - name: Make a commit
+        run: |
+          echo "Hi" > sample.txt
+          commit -a -m "add: sample.txt"
+      - name: git push
+        run: git push --set-upstream origin HEAD
+      - name: Create a PR
+        run: |
+          gh pr create \
+            --title "Add a sample file" \
+            --body "This PR is created by the GitHub Actions" \
+            --reviewer matoruru
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
