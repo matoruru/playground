@@ -1,5 +1,3 @@
-# This is a basic workflow that is manually triggered
-
 name: Create a PR by github-actions bot
 
 on:
@@ -19,7 +17,8 @@ jobs:
       - name: Make a commit
         run: |
           echo "Hi" > sample.txt
-          git commit -a -m "add: sample.txt"
+          git add sample.txt
+          git commit -m "add: sample.txt"
       - name: git push
         run: git push --set-upstream origin HEAD
       - name: Create a PR
