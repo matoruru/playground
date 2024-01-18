@@ -19,7 +19,7 @@ jobs:
       - name: Make a commit
         run: |
           echo "Hi" > sample.txt
-          commit -a -m "add: sample.txt"
+          git commit -a -m "add: sample.txt"
       - name: git push
         run: git push --set-upstream origin HEAD
       - name: Create a PR
