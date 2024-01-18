@@ -1,3 +1,6 @@
+# A Workflow that create a commit and a PR as github-actinos bot.
+# github-actionsのbotユーザとしてコミットとPRを作成するワークフロー。
+
 name: Create a PR by github-actions bot
 
 on:
