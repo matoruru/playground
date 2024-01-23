@@ -18,12 +18,12 @@ By its `failureThreshold` and `periodSeconds`, you can replace a fixed time unti
 
 ![](imgs/just-after-apply.png)
 
-**startupProbe one is ready**
+**startupProbe one is ready (14s)**
 
 ![](imgs/startupprobe-app-ready.png)
 
 
-**initialDelaySeconds one is finally ready**
+**initialDelaySeconds one is finally ready (62s)**
 
 
 ![](imgs/initialdelayseconds-app-ready.png)
