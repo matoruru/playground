@@ -6,11 +6,9 @@ name: Use a tag in JS
 # or API.
 on:
   push:
-  branches:
-    - main
-  tags:
-    - 'v*.*.*'
-    - 'v*.*.*-rc*'
+    tags:
+      - 'v*.*.*'
+      - 'v*.*.*-rc*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
