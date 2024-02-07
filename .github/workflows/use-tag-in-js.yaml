@@ -23,8 +23,6 @@ jobs:
       name: js script
       with:
         script: |
-          const fullRef = '${{ github.ref_name }}'
-          console.log('Git Ref: ', fullRef)
-          const tag = fullRef.split('/')[2]
-          console.log('Tag name: ', tag)
+          const tagName = '${{ github.ref_name }}'
+          console.log('Tag name: ', tagName)
           
