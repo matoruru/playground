@@ -22,11 +22,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/github-script@v7
-        name: js script
-        with:
-          script: |
-            const fullRef = '${{ github.ref_name }}'
-            console.log('Git Ref: ', fullRef)
-            const tag = fullRef.split('/')[2]
-            console.log('Tag name: ', tag)
-            
+      name: js script
+      with:
+        script: |
+          const fullRef = '${{ github.ref_name }}'
+          console.log('Git Ref: ', fullRef)
+          const tag = fullRef.split('/')[2]
+          console.log('Tag name: ', tag)
+          
