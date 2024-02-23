@@ -2,8 +2,25 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Calling GitHub API with Redis cache.">
 	<main>
-		
+		<sl-card>
+			<sl-input id="username" class="gap" clearable label="Enter your GitHub username">
+				<span id="handle-icon" slot="prefix">@</span>
+			</sl-input>
+			<div class="right">
+				<sl-button
+				  hx-trigger="click"
+				>Search</sl-button>
+			</div>
+		</sl-card>
 	</main>
-</Layout>
+</Layout>””
+<style>
+	#handle-icon {
+		opacity: 0.5;
+	}
+	.right {
+		text-align: right;
+	}
+</style>
