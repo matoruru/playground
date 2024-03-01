@@ -1,0 +1,8 @@
+metadata:
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/matoruru/playground
+    targetRevision: main
