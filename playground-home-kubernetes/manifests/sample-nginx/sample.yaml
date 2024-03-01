@@ -39,8 +39,12 @@ kind: Ingress
 metadata:
   name: basic-ingress
 spec:
-  defaultBackend:
-    service:
-      name: web
-      port:
-        number: 8080
+  rules:
+    - host: test1.homek8s.matoru.ru
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: web
+            servicePort: 8080
