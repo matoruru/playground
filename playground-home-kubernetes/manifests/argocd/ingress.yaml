@@ -9,10 +9,10 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: k8s.matoru.ru
+  - host: argocd.k8s.matoru.ru
     http:
       paths:
-      - path: /argocd
+      - path: /
         pathType: Prefix
         backend:
           service:
