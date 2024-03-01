@@ -33,10 +33,10 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
-         service:
-            name: ingress-sample
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: test
             port:
               number: 80
-        path: /
-        pathType: Prefix
