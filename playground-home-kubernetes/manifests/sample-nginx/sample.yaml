@@ -41,10 +41,10 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: test1.homek8s.matoru.ru
+  - host: k8s.matoru.ru
     http:
       paths:
-      - path: /
+      - path: /test1
         pathType: Prefix
         backend:
           service:
