@@ -39,6 +39,7 @@ kind: Ingress
 metadata:
   name: basic-ingress
 spec:
+  ingressClassName: nginx
   rules:
   - host: test1.homek8s.matoru.ru
     http:
