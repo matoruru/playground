@@ -12,4 +12,7 @@ spec:
     path: playground-home-kubernetes/manifests/metallb
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
-  syncPolicy: {{ .Values.spec.syncPolicy }}
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
