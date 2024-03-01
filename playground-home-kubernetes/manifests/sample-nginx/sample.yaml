@@ -41,10 +41,3 @@ spec:
             name: ingress-sample
             port:
               number: 80
-      - path: /coffee
-        pathType: Prefix
-        backend:
-          service:
-            name: ingress-sample
-            port:
-              number: 80
