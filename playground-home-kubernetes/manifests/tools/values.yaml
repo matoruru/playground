@@ -6,3 +6,7 @@ spec:
   source:
     repoURL: https://github.com/matoruru/playground
     targetRevision: main
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
