@@ -37,6 +37,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: test
+            name: ingress-sample
             port:
               number: 80
