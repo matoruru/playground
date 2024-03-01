@@ -4,14 +4,4 @@ kind: Kustomization
 namespace: nginx-ingress
 
 resources:
-- deployments/common/ns-and-sa.yaml
-- deployments/rbac/rbac.yaml
-- deployments/common/nginx-config.yaml
-- deployments/common/ingress-class.yaml
-- config/crd/bases/k8s.nginx.org_virtualservers.yaml
-- config/crd/bases/k8s.nginx.org_virtualserverroutes.yaml
-- config/crd/bases/k8s.nginx.org_transportservers.yaml
-- config/crd/bases/k8s.nginx.org_policies.yaml
-- config/crd/bases/k8s.nginx.org_globalconfigurations.yaml
-- deployments/deployment/nginx-ingress.yaml
-- deployments/service/loadbalancer.yaml
+- https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
