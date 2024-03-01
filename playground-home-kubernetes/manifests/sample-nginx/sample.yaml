@@ -40,10 +40,10 @@ metadata:
   name: basic-ingress
 spec:
   rules:
-  - http:
+  - host: test1.homek8s.matoru.ru
+    http:
       paths:
-      - host: test1.homek8s.matoru.ru
-        path: /
+      - path: /
         pathType: Prefix
         backend:
           service:
