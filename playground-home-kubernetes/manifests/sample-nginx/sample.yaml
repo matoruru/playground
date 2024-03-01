@@ -30,13 +30,8 @@ metadata:
   name: sample
 spec:
   ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /testpath
-        pathType: Prefix
-        backend:
-          service:
-            name: ingress-sample
-            port:
-              number: 80
+  defaultBackend:
+    service:
+      name: ingress-sample
+      port:
+        number: 80
