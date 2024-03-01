@@ -6,7 +6,7 @@ metadata:
     app: nginx-sample
 spec:
   containers:
-  - image: nginx-sample
+  - image: nginx
     name: nginx-sample
     ports:
     - containerPort: 80
