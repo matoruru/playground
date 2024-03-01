@@ -13,6 +13,10 @@
     "@astrojs/check": "^0.5.5",
     "@shoelace-style/shoelace": "^2.14.0",
     "astro": "^4.4.3",
+    "bun": "^1.0.29",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.0.7"
   }
 }
