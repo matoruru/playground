@@ -39,6 +39,7 @@ kind: Ingress
 metadata:
   name: basic-ingress
 spec:
+  ingressClassName: nginx
   defaultBackend:
     service:
       name: web
