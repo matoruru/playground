@@ -40,11 +40,13 @@ metadata:
   name: basic-ingress
 spec:
   rules:
-    - host: test1.homek8s.matoru.ru
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            serviceName: web
-            servicePort: 8080
+  - http:
+      paths:
+      - host: test1.homek8s.matoru.ru
+        path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web
+            port:
+              number: 8080
