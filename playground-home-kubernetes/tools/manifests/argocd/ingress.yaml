@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: argocd-server-ingress
   namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - '*.k8s.matoru.ru'
+    secretName: argocd-tls-cert
   rules:
   - host: argocd.k8s.matoru.ru
     http:
