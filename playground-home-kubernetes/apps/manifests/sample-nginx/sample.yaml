@@ -43,14 +43,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: basic-ingress
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
   ingressClassName: nginx
-  tls:
-  - hosts:
-    - '*.matoru.ru'
-    secretName: sample-nginx-basic-ingress
   rules:
   - host: k8s.matoru.ru
     http:
