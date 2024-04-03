@@ -52,7 +52,7 @@ jobs:
           CATEGORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.name }}"
           CATEGORY_ID="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}"
           echo Repository Name: \"$REPOSITORY_NAME\"
-          echo Repository ID: \"$REPOSITORYID\"
+          echo Repository ID: \"$REPOSITORY_ID\"
           echo Category Name: \"$CATEGORY_NAME\"
           echo Category ID: \"$CATEGORY_ID\"
           echo "REPOSITORY_ID=$REPOSITORY_ID" >> $GITHUB_OUTPUT
