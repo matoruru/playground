@@ -43,28 +43,17 @@ jobs:
             repo: ${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set variables
-        id: set_variables
+      - name: Check GraphQL result
         run: |
           echo Result Object: "${{ steps.get_id_objs.outputs.data }}"
-          REPOSITORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.name }}"
-          REPOSITORY_ID="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}"
-          CATEGORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.name }}"
-          CATEGORY_ID="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}"
-          echo Repository Name: \"$REPOSITORY_NAME\"
-          echo Repository ID: \"$REPOSITORY_ID\"
-          echo Category Name: \"$CATEGORY_NAME\"
-          echo Category ID: \"$CATEGORY_ID\"
-          echo "REPOSITORY_ID=$REPOSITORY_ID" >> $GITHUB_OUTPUT
-          echo "CATEGORY_ID=$CATEGORY_ID" >> $GITHUB_OUTPUT
       - uses: octokit/graphql-action@v2.x
         with:
           query: |
             mutation {
               createDiscussion(
-                input: {repositoryId: "${{ steps.set_variables.outputs.REPOSITORY_ID }}",
-                categoryId: "${{ steps.set_variables.outputs.CATEGORY_ID }}",
-                body: "This is created by GraphQL API!", title: "The title"}
+                input: {repositoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}",
+                categoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}",
+                body: "This post is created by GraphQL API!", title: "This post is created by GitHub Action"}
               ) {
                 discussion {
                   id
