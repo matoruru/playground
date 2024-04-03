@@ -15,6 +15,20 @@ on:
       body:
         required: true
         default: This post is created by GitHUb Action via GraphQL API!
+  workflow_call:
+    inputs:
+      category:
+        type: string
+        required: true
+        default: Announcements
+      title:
+        type: string
+        required: true
+        default: This post is created by GitHUb Action!
+      body:
+        type: string
+        required: true
+        default: This post is created by GitHUb Action via GraphQL API!
 
 jobs:
   post_discussion:
