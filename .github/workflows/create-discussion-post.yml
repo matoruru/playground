@@ -17,7 +17,7 @@ on:
         default: This post is created by GitHUb Action via GraphQL API!
 
 jobs:
-  create:
+  post_discussion:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

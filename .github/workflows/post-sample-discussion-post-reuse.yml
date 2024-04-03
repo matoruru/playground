@@ -1,0 +1,13 @@
+# A Workflow that create a GitHub Discussion post reusing the other existing workflow.
+# 既存のワークフローを再利用してGitHub Discussionに投稿するワークフロー
+
+name: Create a Discussion post to a specific category
+
+on:
+  workflow_dispatch:
+
+jobs:
+  post_discussion:
+    uses: matoruru/playground/.github/workflows/create-discussion-post.yml@main
+    with:
+      body: This post is created by re-using the posting workflow.
