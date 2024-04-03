@@ -18,6 +18,7 @@ jobs:
       - name: Set default variables as outputs
         id: default_variables
         run: |
+          echo "$GITHUB_REPOSITORY_ID"
           echo "A=$GITHUB_REPOSITORY_ID" >> $GITHUB_OUTPUTS
       - uses: octokit/graphql-action@v2.x
         id: get_id_objs
