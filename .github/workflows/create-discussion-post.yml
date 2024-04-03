@@ -1,10 +1,13 @@
 # A Workflow that create a GitHub Discussion post.
 # GitHub Discussionに投稿するワークフロー
 
-name: Create a Discussion post
+name: Create a Discussion post to a specific category
 
 on:
   workflow_dispatch:
+    inputs:
+      category:
+        required: true
 
 jobs:
   create:
@@ -13,13 +16,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: octokit/graphql-action@v2.x
         id: get_id_objs
-        name: Get repository ID and Discussion category (Announcements) ID
+        name: Get repository ID and Discussion category (${{ github.event.inputs.category }}) ID
         with:
           query: |
             query {
               search(
                 type: DISCUSSION,
-                query: "repo:matoruru/playground category:Announcements",
+                query: "repo:matoruru/playground category:${{ github.event.inputs.category }}",
                 first: 1
               ) {
                 edges {
