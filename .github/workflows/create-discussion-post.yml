@@ -57,7 +57,7 @@ jobs:
           query: |
             mutation {
               createDiscussion(
-                input: {repositoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}",
+                input: {repositoryId: "$GITHUB_REPOSITORY_ID",
                 categoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}",
                 body: "This post is created by GraphQL API!", title: "This post is created by GitHub Action"}
               ) {
