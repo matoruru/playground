@@ -9,6 +9,12 @@ on:
       category:
         required: true
         default: Announcements
+      title:
+        required: true
+        default: This post is created by GitHUb Action!
+      body:
+        required: true
+        default: This post is created by GitHUb Action via GraphQL API!
 
 jobs:
   create:
@@ -59,9 +65,12 @@ jobs:
           query: |
             mutation {
               createDiscussion(
-                input: {repositoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}",
-                categoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}",
-                body: "This post is created by GraphQL API!", title: "This post is created by GitHub Action"}
+                input: {
+                  repositoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}",
+                  categoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}",
+                  title: "${{ github.event.inputs.title }}",
+                  body: "${{ github.event.inputs.body }}"
+                }
               ) {
                 discussion {
                   id
