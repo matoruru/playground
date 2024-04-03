@@ -33,7 +33,7 @@ jobs:
       run: echo "# Kubescape Manifest scan result ($(TZ=JST-9 date))"
 
     - name: 'Scan Kustomize manifest (format: Pretty print)'
-      run: kubescape scan framework nsa --verbose -- 0003/manifest/ > result.txt
+      run: kubescape scan framework nsa --verbose -- playgrounds/0003/manifest/ > result.txt
 
     - name: Format scan result
       run: |
