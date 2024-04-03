@@ -49,6 +49,9 @@ jobs:
       - name: Check GraphQL result
         run: |
           echo Result Object: "${{ steps.get_id_objs.outputs.data }}"
+
+          # experimentation
+          echo "$GITHUB_REPOSITORY_ID"
       - uses: octokit/graphql-action@v2.x
         with:
           query: |
