@@ -10,5 +10,7 @@ jobs:
   post_discussion:
     uses: matoruru/playground/.github/workflows/create-discussion-post.yml@main
     with:
+      category: Announcements
+      title: Test
       body: This post is created by re-using the posting workflow.
     secrets: inherit
