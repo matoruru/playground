@@ -18,7 +18,7 @@ jobs:
       - name: Set default variables as outputs
         id: default_variables
         run: |
-          echo "GITHUB_REPOSITORY_ID=$GITHUB_REPOSITORY_ID" >> $GITHUB_OUTPUT
+          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" >> $GITHUB_OUTPUT
       - uses: octokit/graphql-action@v2.x
         id: get_id_objs
         name: Get repository ID and Discussion category (${{ github.event.inputs.category }}) ID
@@ -27,7 +27,7 @@ jobs:
             query {
               search(
                 type: DISCUSSION,
-                query: "repo:matoruru/playground category:${{ github.event.inputs.category }}",
+                query: "repo:${{ steps.default_variables.outputs.GITHUB_REPOSITORY }} category:${{ github.event.inputs.category }}",
                 first: 1
               ) {
                 edges {
@@ -54,13 +54,12 @@ jobs:
       - name: Check GraphQL result
         run: |
           echo Result Object: "${{ steps.get_id_objs.outputs.data }}"
-          echo \"${{ steps.default_variables.outputs.GITHUB_REPOSITORY_ID }}\"
       - uses: octokit/graphql-action@v2.x
         with:
           query: |
             mutation {
               createDiscussion(
-                input: {repositoryId: "${{ steps.default_variables.outputs.GITHUB_REPOSITORY_ID }}",
+                input: {repositoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}",
                 categoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}",
                 body: "This post is created by GraphQL API!", title: "This post is created by GitHub Action"}
               ) {
