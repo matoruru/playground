@@ -46,7 +46,7 @@ jobs:
       - name: Set variables
         id: set_variables
         run: |
-          echo Result Object: \"${{ steps.get_id_objs.outputs.data }}\"
+          echo Result Object: "${{ steps.get_id_objs.outputs.data }}"
           REPOSITORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.name }}"
           REPOSITORYID="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}"
           CATEGORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.name }}"
