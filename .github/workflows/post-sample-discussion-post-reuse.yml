@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  use_workflow:
+  post_discussion:
     uses: matoruru/playground/.github/workflows/create-discussion-post.yml@main
     with:
       body: This post is created by re-using the posting workflow.
