@@ -43,35 +43,36 @@ jobs:
             repo: ${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check result object
+      - name: Set variables
+        id: set_variables
         run: |
-          echo Result Object: '${{ steps.get_id_objs.outputs.data }}'
-          echo Repository Name: '${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.name }}'
-          echo Repository ID: '${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}'
-          echo Category Name: '${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.name }}'
-          echo Category ID: '${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}'
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18.x'
-      # - uses: actions/github-script@v7
-      #   name: Get IDs from GraphQL result object
-      #   id: get_ids
-      #   with:
-      #     script: |
-      #       console.log('hi')
-
-      # - uses: octokit/graphql-action@v2.x
-      #   with:
-      #     query: |
-      #       mutation {
-      #         createDiscussion(input: {repositoryId: "R_kgDOK6_K-w", categoryId: "DIC_kwDOK6_K-84CcXrZ", body: "This is created by GraphQL API!", title: "The title"}) {
-      #           discussion {
-      #             id
-      #           }
-      #         }
-      #       }
-      #     variables: |
-      #       owner: ${{ github.event.repository.owner.name }}
-      #       repo: ${{ github.event.repository.name }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo Result Object: \"${{ steps.get_id_objs.outputs.data }}\"
+          REPOSITORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.name }}"
+          REPOSITORYID="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}"
+          CATEGORY_NAME="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.name }}"
+          CATEGORY_ID="${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}"
+          echo Repository Name: \"$REPOSITORY_NAME\"
+          echo Repository ID: \"$REPOSITORYID\"
+          echo Category Name: \"$CATEGORY_NAME\"
+          echo Category ID: \"$CATEGORY_ID\"
+          echo "REPOSITORY_ID=$REPOSITORY_ID" >> $GITHUB_OUTPUT
+          echo "CATEGORY_ID=$CATEGORY_ID" >> $GITHUB_OUTPUT
+      - uses: octokit/graphql-action@v2.x
+        with:
+          query: |
+            mutation {
+              createDiscussion(
+                input: {repositoryId: "${{ steps.set_variables.outputs.REPOSITORY_ID }}",
+                categoryId: "${{ steps.set_variables.outputs.CATEGORY_ID }}",
+                body: "This is created by GraphQL API!", title: "The title"}
+              ) {
+                discussion {
+                  id
+                }
+              }
+            }
+          variables: |
+            owner: ${{ github.event.repository.owner.name }}
+            repo: ${{ github.event.repository.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
