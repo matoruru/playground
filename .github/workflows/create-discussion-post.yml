@@ -1,0 +1,28 @@
+# A Workflow that create a GitHub Discussion post.
+# GitHub Discussionに投稿するワークフロー
+
+name: Create a Discussion post
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: octokit/graphql-action@v2.x
+        with:
+          query: |
+            mutation {
+              createDiscussion(input: {repositoryId: "R_kgDOK6_K-w", categoryId: "DIC_kwDOK6_K-84CcXrZ", body: "This is created by GraphQL API!", title: "The title"}) {
+                discussion {
+                  id
+                }
+              }
+            }
+          variables: |
+            owner: ${{ github.event.repository.owner.name }}
+            repo: ${{ github.event.repository.name }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
