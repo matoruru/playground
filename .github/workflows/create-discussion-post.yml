@@ -41,13 +41,13 @@ jobs:
           echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" >> $GITHUB_OUTPUT
       - uses: octokit/graphql-action@v2.x
         id: get_id_objs
-        name: Get repository ID and Discussion category (${{ github.event.inputs.category }}) ID
+        name: Get repository ID and Discussion category (${{ github.event.inputs.category || inputs.category  }}) ID
         with:
           query: |
             query {
               search(
                 type: DISCUSSION,
-                query: "repo:${{ steps.default_variables.outputs.GITHUB_REPOSITORY }} category:${{ github.event.inputs.category }}",
+                query: "repo:${{ steps.default_variables.outputs.GITHUB_REPOSITORY }} category:${{ github.event.inputs.category || inputs.category }}",
                 first: 1
               ) {
                 edges {
@@ -82,8 +82,8 @@ jobs:
                 input: {
                   repositoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.repository.id }}",
                   categoryId: "${{ fromJSON(steps.get_id_objs.outputs.data).search.edges[0].node.category.id }}",
-                  title: "${{ github.event.inputs.title }}",
-                  body: "${{ github.event.inputs.body }}"
+                  title: "${{ github.event.inputs.title || inputs.title }}",
+                  body: "${{ github.event.inputs.body || inputs.body }}"
                 }
               ) {
                 discussion {
