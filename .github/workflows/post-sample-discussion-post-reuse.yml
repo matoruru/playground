@@ -1,7 +1,7 @@
 # A Workflow that create a GitHub Discussion post reusing the other existing workflow.
 # 既存のワークフローを再利用してGitHub Discussionに投稿するワークフロー
 
-name: Create a Discussion post to a specific category
+name: Create a sample Discussion post
 
 on:
   workflow_dispatch:
