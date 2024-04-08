@@ -9,12 +9,20 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: {{ .Values.spec.project }}
   sources:
-  # - repoURL: https://github.com/bitnami/charts
-  #   path: bitnami/redis
-  #   targetRevision: main
-  - repoURL: https://github.com/bitnami/charts
-    path: bitnami/postgresql
+  - repoURL: oci://registry-1.docker.io/bitnamicharts
+    path: redis
     targetRevision: main
+    helm:
+      releaseName: tyk-redis
+      valueFiles:
+      - ../values.yaml
+  - repoURL: oci://registry-1.docker.io/bitnamicharts
+    path: postgresql
+    targetRevision: main
+    helm:
+      releaseName: tyk-postgres
+      valueFiles:
+      - ../values.yaml
   syncPolicy:
     automated:
       selfHeal: true
