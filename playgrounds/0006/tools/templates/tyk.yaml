@@ -9,14 +9,14 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: {{ .Values.spec.project }}
   sources:
-  - repoURL: oci://registry-1.docker.io/bitnamicharts
+  - repoURL: registry-1.docker.io/bitnamicharts
     path: redis
     targetRevision: main
     helm:
       releaseName: tyk-redis
       valueFiles:
       - ../values.yaml
-  - repoURL: oci://registry-1.docker.io/bitnamicharts
+  - repoURL: registry-1.docker.io/bitnamicharts
     path: postgresql
     targetRevision: main
     helm:
