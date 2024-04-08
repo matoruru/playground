@@ -9,7 +9,7 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: {{ .Values.spec.project }}
   source:
-    path: charts/v1.28.7/azurefile-csi-driver
+    path: charts/v1.30.0/azurefile-csi-driver
     repoURL: https://github.com/kubernetes-sigs/azurefile-csi-driver
     targetRevision: master
   syncPolicy:
