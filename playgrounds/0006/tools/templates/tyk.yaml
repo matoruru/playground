@@ -25,27 +25,27 @@ spec:
         # Tyk PostgreSQL
         auth:
           database: tyk_analytic
-  - repoURL: https://github.com/TykTechnologies/tyk-charts
-    path: tyk-stack
-    targetRevision: main
-    helm:
-      releaseName: tyk-stack
-      values: |
-        # Tyk
-        global:
-          adminUser:
-            useSecretName: admin-secrets
-          secrets:
-            useSecretName: my-secrets
-          redis:
-            addrs: "{tyk-redis-master.$NAMESPACE.svc:6379}"
-            passSecret:
-              name: tyk-redis
-              keyName: redis-password
-          postgres:
-            connectionStringSecret:
-              name: postgres-secrets
-              keyName: postgresUrl
+  # - repoURL: https://github.com/TykTechnologies/tyk-charts
+  #   path: tyk-stack
+  #   targetRevision: main
+  #   helm:
+  #     releaseName: tyk-stack
+  #     values: |
+  #       # Tyk
+  #       global:
+  #         adminUser:
+  #           useSecretName: admin-secrets
+  #         secrets:
+  #           useSecretName: my-secrets
+  #         redis:
+  #           addrs: "{tyk-redis-master.$NAMESPACE.svc:6379}"
+  #           passSecret:
+  #             name: tyk-redis
+  #             keyName: redis-password
+  #         postgres:
+  #           connectionStringSecret:
+  #             name: postgres-secrets
+  #             keyName: postgresUrl
   syncPolicy:
     automated:
       selfHeal: true
