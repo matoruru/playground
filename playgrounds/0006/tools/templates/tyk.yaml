@@ -12,6 +12,7 @@ spec:
   - repoURL: registry-1.docker.io/bitnamicharts
     path: redis
     targetRevision: main
+    chart: redis
     helm:
       releaseName: tyk-redis
       valueFiles:
@@ -19,6 +20,7 @@ spec:
   - repoURL: registry-1.docker.io/bitnamicharts
     path: postgresql
     targetRevision: main
+    chart: postgresql
     helm:
       releaseName: tyk-postgres
       valueFiles:

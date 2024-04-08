@@ -5,3 +5,10 @@ metadata:
   labels:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
+data:
+  repositories: |
+    bitnamicharts-oci:
+      url: registry-1.docker.io/bitnamicharts
+      name: bitnamicharts
+      type: helm
+      enableOCI: "true"
