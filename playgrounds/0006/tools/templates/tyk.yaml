@@ -13,10 +13,8 @@ spec:
   #   path: bitnami/redis
   #   targetRevision: main
   - repoURL: https://github.com/bitnami/charts
-    chart: bitnami/postgresql
+    path: bitnami/postgresql
     targetRevision: main
-    helm:
-      releaseName: tyk-postgres
   syncPolicy:
     automated:
       selfHeal: true
