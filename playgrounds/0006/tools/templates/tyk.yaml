@@ -11,20 +11,41 @@ spec:
   sources:
   - repoURL: registry-1.docker.io/bitnamicharts
     path: redis
-    targetRevision: main
+    targetRevision: 19.1.0 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/redis/Chart.yaml#L39C10-L39C16
     chart: redis
     helm:
       releaseName: tyk-redis
-      valueFiles:
-      - ../values.yaml
   - repoURL: registry-1.docker.io/bitnamicharts
     path: postgresql
-    targetRevision: main
+    targetRevision: 15.2.4 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/postgresql/Chart.yaml#L38C10-L38C16
     chart: postgresql
     helm:
       releaseName: tyk-postgres
-      valueFiles:
-      - ../values.yaml
+      values: |
+        # Tyk PostgreSQL
+        auth:
+          database: tyk_analytic
+  - repoURL: https://github.com/TykTechnologies/tyk-charts
+    path: tyk-stack
+    targetRevision: main
+    helm:
+      releaseName: tyk-stack
+      values: |
+        # Tyk
+        global:
+          adminUser:
+            useSecretName: admin-secrets
+          secrets:
+            useSecretName: my-secrets
+          redis:
+            addrs: "{tyk-redis-master.$NAMESPACE.svc:6379}"
+            passSecret:
+              name: tyk-redis
+              keyName: redis-password
+          postgres:
+            connectionStringSecret:
+              name: postgres-secrets
+              keyName: postgresUrl
   syncPolicy:
     automated:
       selfHeal: true
