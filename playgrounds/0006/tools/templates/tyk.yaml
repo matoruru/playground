@@ -8,13 +8,15 @@ spec:
     namespace: tyk
     server: {{ .Values.spec.destination.server }}
   project: {{ .Values.spec.project }}
-  source:
+  sources:
   # - repoURL: https://github.com/bitnami/charts
   #   path: bitnami/redis
   #   targetRevision: main
-    repoURL: https://github.com/bitnami/charts
+  - repoURL: https://github.com/bitnami/charts
     path: bitnami/postgresql
     targetRevision: main
+    helm:
+      releaseName: tyk-postgres
   syncPolicy:
     automated:
       selfHeal: true
