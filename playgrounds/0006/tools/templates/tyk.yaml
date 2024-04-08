@@ -10,15 +10,13 @@ spec:
   project: {{ .Values.spec.project }}
   sources:
   - repoURL: registry-1.docker.io/bitnamicharts
-    path: redis
-    targetRevision: 19.1.0 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/redis/Chart.yaml#L39C10-L39C16
     chart: redis
+    targetRevision: 19.1.0 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/redis/Chart.yaml#L39C10-L39C16
     helm:
       releaseName: tyk-redis
   - repoURL: registry-1.docker.io/bitnamicharts
-    path: postgresql
-    targetRevision: 15.2.4 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/postgresql/Chart.yaml#L38C10-L38C16
     chart: postgresql
+    targetRevision: 15.2.4 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/postgresql/Chart.yaml#L38C10-L38C16
     helm:
       releaseName: tyk-postgres
       values: |
