@@ -7,3 +7,4 @@ resources:
   - ./ns.yaml
   - ./cluster-install/
   - ./ingress.yaml
+  - ./myconfig
