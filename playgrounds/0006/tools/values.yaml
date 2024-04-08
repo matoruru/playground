@@ -5,3 +5,23 @@ spec:
   source:
     repoURL: https://github.com/matoruru/playground
     targetRevision: main
+
+# Tyk PostgreSQL
+auth:
+  database: tyk_analytic
+
+# Tyk
+global:
+  adminUser:
+    useSecretName: admin-secrets
+  secrets:
+    useSecretName: my-secrets
+  redis:
+    addrs: "{tyk-redis-master.$NAMESPACE.svc:6379}"
+    passSecret:
+      name: tyk-redis
+      keyName: redis-password
+  postgres:
+    connectionStringSecret:
+      name: postgres-secrets
+      keyName: postgresUrl

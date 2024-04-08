@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tyk
+  namespace: argocd
+spec:
+  destination:
+    namespace: tyk
+    server: {{ .Values.spec.destination.server }}
+  project: {{ .Values.spec.project }}
+  sources:
+  - repoURL: https://github.com/bitnami/charts
+    path: bitnami/redis
+    targetRevision: main
+  - repoURL: https://github.com/bitnami/charts
+    path: bitnami/postgresql
+    targetRevision: main
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
