@@ -5,4 +5,4 @@ namespace: try-azurefiles
 
 resources:
 - ./ns.yaml
-- ./deployment.yaml
+- ./sts.yaml

@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: web
   namespace: default
 spec:
+  serviceName: myservice
   selector:
     matchLabels:
       run: web
