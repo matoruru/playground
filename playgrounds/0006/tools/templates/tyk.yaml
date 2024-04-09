@@ -24,9 +24,10 @@ spec:
         auth:
           database: tyk_analytic
   - repoURL: https://helm.tyk.io/public/helm/charts
+    chart: tyk-stack
     targetRevision: 1.3.0 #https://github.com/TykTechnologies/tyk-charts/blob/115d297efca20a013374de5cc47e273729e5d045/tyk-stack/Chart.yaml#L3C10-L3C15
     helm:
-      releaseName: tyk-stack
+      releaseName: tyk
       values: |
         # Tyk
         global:
