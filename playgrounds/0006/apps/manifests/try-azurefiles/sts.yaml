@@ -23,6 +23,19 @@ spec:
         volumeMounts:
         - mountPath: /bitnami/postgresql
           name: data
+        securityContext:
+        allowPrivilegeEscalation: false
+        privileged: false
+        readOnlyRootFilesystem: true
+        runAsGroup: 1001
+        runAsNonRoot: true
+        runAsUser: 1001
+        seLinuxOptions: {}
+        seccompProfile:
+          type: RuntimeDefault
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: Always
   volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
