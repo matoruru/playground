@@ -14,8 +14,8 @@ parameters:
   csi.storage.k8s.io/controller-expand-secret-name: azure-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: default
 mountOptions:
-  - dir_mode=0777
-  - file_mode=0777
+  - dir_mode=0750
+  - file_mode=0750
   - uid=1001
   - gid=1001
   - mfsymlinks
