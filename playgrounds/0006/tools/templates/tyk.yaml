@@ -16,6 +16,7 @@ spec:
       releaseName: tyk-redis
       values: |
         # Tyk Redis
+        architecture: standalone
         replica:
           externalMaster:
             enabled: true
