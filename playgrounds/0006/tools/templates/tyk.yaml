@@ -17,10 +17,6 @@ spec:
       values: |
         # Tyk Redis
         architecture: standalone
-        replica:
-          externalMaster:
-            enabled: true
-            host: tyk-redis-master.tyk.svc.cluster.local
         volumePermissions:
           enabled: true
   - repoURL: registry-1.docker.io/bitnamicharts
@@ -32,6 +28,8 @@ spec:
         # Tyk PostgreSQL
         auth:
           database: tyk_analytic
+          username: myuser
+          password: mypassword
         image:
           tag: 15.6.0
   - repoURL: https://helm.tyk.io/public/helm/charts
