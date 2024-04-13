@@ -14,10 +14,10 @@ parameters:
   csi.storage.k8s.io/controller-expand-secret-name: azure-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: default
 mountOptions:
-  - dir_mode=0700
-  - file_mode=0600
-  - uid=999
-  - gid=999
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=0
+  - gid=0
   - mfsymlinks
   - cache=strict  # https://linux.die.net/man/8/mount.cifs
   - nosharesock  # reduce probability of reconnect race
