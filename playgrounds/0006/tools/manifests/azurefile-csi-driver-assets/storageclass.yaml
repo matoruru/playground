@@ -13,7 +13,6 @@ parameters:
   csi.storage.k8s.io/node-stage-secret-namespace: default
   csi.storage.k8s.io/controller-expand-secret-name: azure-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: default
-  protocol: nfs
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
