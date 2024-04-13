@@ -28,8 +28,11 @@ spec:
         # Tyk PostgreSQL
         auth:
           database: tyk_analytic
-          username: myuser
-          password: mypassword
+        primary:
+          initdb:
+            scripts:
+              init.sql:
+                CREATE DATABASE tyk_analytic;
         image:
           tag: 15.6.0
   - repoURL: https://helm.tyk.io/public/helm/charts
