@@ -21,7 +21,7 @@ spec:
     chart: postgresql
     targetRevision: 12.12.10 #https://github.com/bitnami/charts/blame/7ab25d7afbf924fbd87d0d8b53597726af410c6c/bitnami/postgresql/Chart.yaml
     helm:
-      releaseName: tyk-mongo
+      releaseName: tyk-postgres
       values: |
         # Tyk PostgreSQL
         auth:
