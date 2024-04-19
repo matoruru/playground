@@ -18,19 +18,14 @@ spec:
         # Tyk Redis
         architecture: standalone
   - repoURL: registry-1.docker.io/bitnamicharts
-    chart: postgresql
-    targetRevision: 15.2.4 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/postgresql/Chart.yaml#L38C10-L38C16
+    chart: mongodb
+    targetRevision: 15.1.4 #https://github.com/bitnami/charts/blob/d502935e8ae025beb7690cc8d611f1e71972a594/bitnami/mongodb/Chart.yaml#L42C10-L42C16
     helm:
-      releaseName: tyk-postgres
+      releaseName: tyk-mongo
       values: |
-        # Tyk PostgreSQL
-        auth:
-          database: tyk_analytic
-        volumePermissions:
-          enabled: true
+        # Tyk MongoDB
         image:
-          tag: 15.6.0
-          debug: true
+          digest: 6.0.13-debian-11-r21
   - repoURL: https://helm.tyk.io/public/helm/charts
     chart: tyk-stack
     targetRevision: 1.3.0 #https://github.com/TykTechnologies/tyk-charts/blob/115d297efca20a013374de5cc47e273729e5d045/tyk-stack/Chart.yaml#L3C10-L3C15
