@@ -26,6 +26,8 @@ spec:
         # Tyk PostgreSQL
         auth:
           database: tyk_analytic
+        volumePermissions:
+          enabled: true
         image:
           tag: 15.6.0
           debug: true
