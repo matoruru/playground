@@ -17,8 +17,6 @@ spec:
       values: |
         # Tyk Redis
         architecture: standalone
-        volumePermissions:
-          enabled: true
   - repoURL: registry-1.docker.io/bitnamicharts
     chart: postgresql
     targetRevision: 15.2.4 #https://github.com/bitnami/charts/blob/c24cbd3ce19317ddb028bd0a47ff5851c02cadd6/bitnami/postgresql/Chart.yaml#L38C10-L38C16
@@ -31,6 +29,13 @@ spec:
         image:
           tag: 15.6.0
           debug: true
+        
+        # https://github.com/bitnami/charts/issues/4737#issuecomment-747584563
+        primary:
+          livenessProbe:
+            initialDelaySeconds: 200
+          readinessProbe:
+            initialDelaySeconds: 200
   - repoURL: https://helm.tyk.io/public/helm/charts
     chart: tyk-stack
     targetRevision: 1.3.0 #https://github.com/TykTechnologies/tyk-charts/blob/115d297efca20a013374de5cc47e273729e5d045/tyk-stack/Chart.yaml#L3C10-L3C15
