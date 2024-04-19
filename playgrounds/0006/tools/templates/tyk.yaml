@@ -25,8 +25,7 @@ spec:
       values: |
         # Tyk PostgreSQL
         auth:
-          database: tyk_analytic
-          enablePostgresUser: true
+          database: tyk_analytics
         volumePermissions:
           enabled: true
         image:
