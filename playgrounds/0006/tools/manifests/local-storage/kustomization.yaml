@@ -3,5 +3,5 @@ kind: Kustomization
 
 resources:
 - pv1.yaml
-- pv2.yaml
+- pv2g.yaml
 - storageclass.yaml

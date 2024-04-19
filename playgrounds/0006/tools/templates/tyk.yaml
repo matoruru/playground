@@ -19,7 +19,7 @@ spec:
         architecture: standalone
   - repoURL: registry-1.docker.io/bitnamicharts
     chart: mongodb
-    targetRevision: 15.1.4 #https://github.com/bitnami/charts/blob/d502935e8ae025beb7690cc8d611f1e71972a594/bitnami/mongodb/Chart.yaml#L42C10-L42C16
+    targetRevision: 13.18.5 #https://github.com/bitnami/charts/blob/d502935e8ae025beb7690cc8d611f1e71972a594/bitnami/mongodb/Chart.yaml#L42C10-L42C16
     helm:
       releaseName: tyk-mongo
       values: |
