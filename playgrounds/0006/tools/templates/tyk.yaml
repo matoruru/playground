@@ -27,7 +27,7 @@ spec:
         auth:
           database: tyk_analytic
         image:
-          tag: 15.2.5
+          tag: 14.11.0
           debug: true
   - repoURL: https://helm.tyk.io/public/helm/charts
     chart: tyk-stack
