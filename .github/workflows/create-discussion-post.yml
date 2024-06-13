@@ -75,6 +75,7 @@ jobs:
         run: |
           echo Result Object: "${{ steps.get_id_objs.outputs.data }}"
       - uses: octokit/graphql-action@v2.x
+        id: post_discussion
         with:
           query: |
             mutation {
@@ -87,7 +88,8 @@ jobs:
                 }
               ) {
                 discussion {
-                  id
+                  id,
+                  url
                 }
               }
             }
@@ -96,3 +98,6 @@ jobs:
             repo: ${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Display a URL of the new announcement
+        run: |
+          echo Announcement URL: ${{ fromJSON(steps.post_discussion.outputs.data).mutation.edges[0].discussion.url }}
