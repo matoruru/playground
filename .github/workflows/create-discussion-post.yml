@@ -100,4 +100,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Display a URL of the new announcement
         run: |
-          echo Announcement URL: ${{ fromJSON(steps.post_discussion.outputs.data).mutation.edges[0].discussion.url }}
+          echo Announcement URL: ${{ fromJSON(steps.post_discussion.outputs.data).mutation.discussion.url }}
