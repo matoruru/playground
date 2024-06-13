@@ -11,10 +11,10 @@ on:
         default: Announcements
       title:
         required: true
-        default: This post is created by GitHUb Action!
+        default: This post is created by GitHub Action!
       body:
         required: true
-        default: This post is created by GitHUb Action via GraphQL API!
+        default: This post is created by GitHub Action via GraphQL API!
   workflow_call:
     inputs:
       category:
@@ -24,11 +24,11 @@ on:
       title:
         type: string
         required: true
-        default: This post is created by GitHUb Action!
+        default: This post is created by GitHub Action!
       body:
         type: string
         required: true
-        default: This post is created by GitHUb Action via GraphQL API!
+        default: This post is created by GitHub Action via GraphQL API!
 
 jobs:
   post_discussion:
