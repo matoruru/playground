@@ -9,5 +9,5 @@ data:
   policy.default: ''
   policy.csv: |
     g, Admin, role:admin
-    g, ReadOnly, role:read-only
+    g, ReadOnly, role:readonly
   scopes: '[roles]'
