@@ -54,6 +54,9 @@ datasource:
   profile: postgresql
 
 postgresql:
+  auth:
+    secretKeys:
+      adminPasswordKey: postgresql-password
   # -- If not exists external PostgreSQL, by default, the DolphinScheduler will use a internal PostgreSQL
   enabled: true
   # -- The username for internal PostgreSQL
