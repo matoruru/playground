@@ -68,7 +68,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
-  postgres-password: "bnlETjR6bHJESg=="
+  postgres-password: "RmFOVVJXclNwbA=="
   # We don't auto-generate LDAP password when it's not provided as we do for other passwords
 ---
 # Source: dolphinscheduler-helm/charts/zookeeper/templates/scripts-configmap.yaml
@@ -745,7 +745,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgresql-password
+                  key: postgres-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -860,7 +860,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgresql-password
+                  key: postgres-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -1282,7 +1282,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgresql-password
+                  key: postgres-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -1445,7 +1445,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgresql-password
+                  key: postgres-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -1839,7 +1839,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgresql-password
+                  key: postgres-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE

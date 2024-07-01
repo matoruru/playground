@@ -170,7 +170,7 @@ Create a database environment variables.
     secretKeyRef:
       {{- if .Values.postgresql.enabled }}
       name: {{ template "dolphinscheduler.postgresql.fullname" . }}
-      key: postgresql-password
+      key: postgres-password
       {{- else if .Values.mysql.enabled }}
       name: {{ template "dolphinscheduler.mysql.fullname" . }}
       key: mysql-password
