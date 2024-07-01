@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-ingress
+  name: nginx-ingress-controller
   namespace: argocd
 spec:
   destination:
@@ -9,7 +9,7 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: {{ .Values.spec.project }}
   source:
-    path: playgrounds/0006/tools/manifests/nginx-ingress
+    path: playgrounds/0006/tools/manifests/nginx-ingress-controller
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
   syncPolicy:
