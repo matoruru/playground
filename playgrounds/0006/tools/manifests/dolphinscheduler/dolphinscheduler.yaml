@@ -7,7 +7,7 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-11.10.13
+    helm.sh/chart: minio-12.1.10
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -47,14 +47,13 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-11.10.13
+    helm.sh/chart: minio-12.1.10
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
   root-user: "bWluaW9hZG1pbg=="
   root-password: "bWluaW9hZG1pbg=="
-  key.json: ""
 ---
 # Source: dolphinscheduler-helm/charts/postgresql/templates/secrets.yaml
 apiVersion: v1
@@ -69,7 +68,7 @@ metadata:
   namespace: default
 type: Opaque
 data:
-  postgresql-postgres-password: "VWFoVE0xQUtwcQ=="
+  postgresql-postgres-password: "MVdJNUE3VE1iZg=="
   postgresql-password: "cm9vdA=="
 ---
 # Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-common.yaml
@@ -219,7 +218,7 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-11.10.13
+    helm.sh/chart: minio-12.1.10
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -533,7 +532,7 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-11.10.13
+    helm.sh/chart: minio-12.1.10
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -547,11 +546,11 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: minio
-        helm.sh/chart: minio-11.10.13
+        helm.sh/chart: minio-12.1.10
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/managed-by: Helm
       annotations:
-        checksum/credentials-secret: d236a7ec1e2e7ef6f3eb0e96a9211efdd9eae0ca3066c4bc5b35dd2e6d865980
+        checksum/credentials-secret: 5374f43e7ce6705afe50cf57e5e982d042827eafb5aa412ed5b29e0cce015516
     spec:
       
       serviceAccountName: release-name-minio
@@ -565,8 +564,6 @@ spec:
                   matchLabels:
                     app.kubernetes.io/name: minio
                     app.kubernetes.io/instance: release-name
-                namespaces:
-                  - "default"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -575,7 +572,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: minio
-          image: docker.io/bitnami/minio:2022.10.29-debian-11-r0
+          image: docker.io/bitnami/minio:2023.2.27-debian-11-r1
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsNonRoot: true
@@ -922,8 +919,6 @@ spec:
                     app.kubernetes.io/name: postgresql
                     app.kubernetes.io/instance: release-name
                     app.kubernetes.io/component: primary
-                namespaces:
-                  - "default"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -1067,8 +1062,6 @@ spec:
                     app.kubernetes.io/name: zookeeper
                     app.kubernetes.io/instance: release-name
                     app.kubernetes.io/component: zookeeper
-                namespaces:
-                  - "default"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
