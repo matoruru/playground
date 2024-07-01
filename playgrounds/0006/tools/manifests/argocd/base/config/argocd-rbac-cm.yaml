@@ -9,3 +9,4 @@ data:
   policy.default: ''
   policy.csv: |
     g, Admin, role:admin
+  scopes: '[roles, email]'
