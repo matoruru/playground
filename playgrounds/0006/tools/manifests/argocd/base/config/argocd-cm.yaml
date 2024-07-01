@@ -6,12 +6,10 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  admin.enabled: "false"
+  #admin.enabled: "false"
 
   # Enabling Exec tab
   exec.enabled: 'true'
-
-  kustomize.buildOptions: --enable-helm
 
   # SSO: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/microsoft/
   url: https://argocd.matoru.ru/ # Replace with the external base URL of your Argo CD
