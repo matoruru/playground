@@ -1,0 +1,1812 @@
+---
+# Source: dolphinscheduler-helm/charts/minio/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-minio
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: minio
+    helm.sh/chart: minio-11.10.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+secrets:
+  - name: release-name-minio
+---
+# Source: dolphinscheduler-helm/templates/rbac.yaml
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: release-name
+    chart: dolphinscheduler-helm-3.1.0
+    release: release-name
+  name: release-name
+---
+# Source: dolphinscheduler-helm/charts/minio/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-minio
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: minio
+    helm.sh/chart: minio-11.10.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  root-user: "bWluaW9hZG1pbg=="
+  root-password: "bWluaW9hZG1pbg=="
+  key.json: ""
+---
+# Source: dolphinscheduler-helm/charts/postgresql/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-postgresql
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.3.18
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+  namespace: default
+type: Opaque
+data:
+  postgresql-postgres-password: "VWFoVE0xQUtwcQ=="
+  postgresql-password: "cm9vdA=="
+---
+# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-common.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-common
+  labels:
+    app.kubernetes.io/name: release-name-common
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+data:
+  DATAX_LAUNCHER: "/opt/soft/datax/bin/datax.py"
+  DATA_BASEDIR_PATH: "/tmp/dolphinscheduler"
+  DOLPHINSCHEDULER_OPTS: ""
+  FLINK_HOME: "/opt/soft/flink"
+  HADOOP_CONF_DIR: "/opt/soft/hadoop/etc/hadoop"
+  HADOOP_HOME: "/opt/soft/hadoop"
+  HIVE_HOME: "/opt/soft/hive"
+  JAVA_HOME: "/opt/java/openjdk"
+  PYTHON_LAUNCHER: "/usr/bin/python/bin/python3"
+  RESOURCE_UPLOAD_PATH: "/dolphinscheduler"
+  SPARK_HOME: "/opt/soft/spark"
+---
+# Source: dolphinscheduler-helm/templates/configmap.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-configs
+  labels:
+    app.kubernetes.io/name: release-name-common
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+data:
+  common.properties: |-
+    alert.rpc.port=50052
+    appId.collect=log
+    aws.credentials.provider.type=AWSStaticCredentialsProvider
+    aws.s3.access.key.id=minioadmin
+    aws.s3.access.key.secret=minioadmin
+    aws.s3.bucket.name=dolphinscheduler
+    aws.s3.endpoint=http://release-name-minio:9000
+    aws.s3.region=ca-central-1
+    conda.path=/opt/anaconda3/etc/profile.d/conda.sh
+    data-quality.jar.dir=
+    data.basedir.path=/tmp/dolphinscheduler
+    datasource.encryption.enable=false
+    datasource.encryption.salt=!@#$%^&*
+    development.state=false
+    hadoop.security.authentication.startup.state=false
+    java.security.krb5.conf.path=/opt/krb5.conf
+    kerberos.expire.time=2
+    login.user.keytab.path=/opt/hdfs.headless.keytab
+    login.user.keytab.username=hdfs-mycluster@ESZ.COM
+    ml.mlflow.preset_repository=https://github.com/apache/dolphinscheduler-mlflow
+    ml.mlflow.preset_repository_version=main
+    resource.alibaba.cloud.access.key.id=<your-access-key-id>
+    resource.alibaba.cloud.access.key.secret=<your-access-key-secret>
+    resource.alibaba.cloud.oss.bucket.name=dolphinscheduler
+    resource.alibaba.cloud.oss.endpoint=https://oss-cn-hangzhou.aliyuncs.com
+    resource.alibaba.cloud.region=cn-hangzhou
+    resource.azure.client.id=minioadmin
+    resource.azure.client.secret=minioadmin
+    resource.azure.subId=minioadmin
+    resource.azure.tenant.id=minioadmin
+    resource.hdfs.fs.defaultFS=hdfs://mycluster:8020
+    resource.hdfs.root.user=hdfs
+    resource.manager.httpaddress.port=8088
+    resource.storage.type=S3
+    resource.storage.upload.base.path=/dolphinscheduler
+    sudo.enable=true
+    support.hive.oneSession=false
+    task.resource.limit.state=false
+    yarn.application.status.address=http://ds1:%s/ws/v1/cluster/apps/%s
+    yarn.job.history.status.address=http://ds1:19888/ws/v1/history/mapreduce/jobs/%s
+    yarn.resourcemanager.ha.rm.ids=192.168.xx.xx,192.168.xx.xx
+---
+# Source: dolphinscheduler-helm/templates/rbac.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: release-name
+  labels:
+    app: release-name
+    chart: "dolphinscheduler-helm-3.1.0"
+    release: "release-name"
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "watch", "list"]
+---
+# Source: dolphinscheduler-helm/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: release-name
+  labels:
+    app: release-name
+    chart: "dolphinscheduler-helm-3.1.0"
+    release: "release-name"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: release-name
+subjects:
+  - kind: ServiceAccount
+    name: release-name
+    namespace: default
+---
+# Source: dolphinscheduler-helm/charts/minio/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-minio
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: minio
+    helm.sh/chart: minio-11.10.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - name: minio-api
+      port: 9000
+      targetPort: minio-api
+      nodePort: null
+    - name: minio-console
+      port: 9001
+      targetPort: minio-console
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: release-name
+---
+# Source: dolphinscheduler-helm/charts/postgresql/templates/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-postgresql-headless
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.3.18
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    # Use this annotation in addition to the actual publishNotReadyAddresses
+    # field below because the annotation will stop being respected soon but the
+    # field is broken in some versions of Kubernetes:
+    # https://github.com/kubernetes/kubernetes/issues/58662
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  namespace: default
+spec:
+  type: ClusterIP
+  clusterIP: None
+  # We want all pods in the StatefulSet to have their addresses published for
+  # the sake of the other Postgresql pods even before they're ready, since they
+  # have to be able to talk to each other in order to become ready.
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: release-name
+---
+# Source: dolphinscheduler-helm/charts/postgresql/templates/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-postgresql
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.3.18
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: release-name
+    role: primary
+---
+# Source: dolphinscheduler-helm/charts/zookeeper/templates/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-zookeeper-headless
+  namespace: default
+  labels:
+    app.kubernetes.io/name: zookeeper
+    helm.sh/chart: zookeeper-6.5.3
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: zookeeper
+spec:
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    
+    - name: tcp-client
+      port: 2181
+      targetPort: client
+    
+    
+    - name: follower
+      port: 2888
+      targetPort: follower
+    - name: tcp-election
+      port: 3888
+      targetPort: election
+  selector:
+    app.kubernetes.io/name: zookeeper
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/component: zookeeper
+---
+# Source: dolphinscheduler-helm/charts/zookeeper/templates/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-zookeeper
+  namespace: default
+  labels:
+    app.kubernetes.io/name: zookeeper
+    helm.sh/chart: zookeeper-6.5.3
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: zookeeper
+spec:
+  type: ClusterIP
+  ports:
+    
+    - name: tcp-client
+      port: 2181
+      targetPort: client
+    
+    
+    - name: follower
+      port: 2888
+      targetPort: follower
+    - name: tcp-election
+      port: 3888
+      targetPort: election
+  selector:
+    app.kubernetes.io/name: zookeeper
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/component: zookeeper
+---
+# Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-alert.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-alert
+  namespace: default
+  labels:
+    app.kubernetes.io/name: release-name-alert
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ports:
+    - port: 50052
+      targetPort: alert-port
+      protocol: TCP
+      name: alert-port
+    - port: 50053
+      targetPort: actuator-port
+      protocol: TCP
+      name: actuator-port
+  selector:
+    app.kubernetes.io/name: release-name-alert
+    app.kubernetes.io/component: alert
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-api.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-api
+  labels:
+    app.kubernetes.io/name: release-name-api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 12345
+      targetPort: api-port
+      protocol: TCP
+      name: api-port
+    - port: 25333
+      targetPort: python-api-port
+      protocol: TCP
+      name: python-api-port
+  selector:
+    app.kubernetes.io/name: release-name-api
+    app.kubernetes.io/component: api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-master-headless.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-master-headless
+  labels:
+    app.kubernetes.io/name: release-name-master-headless
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  clusterIP: "None"
+  ports:
+    - port: 5678
+      targetPort: master-port
+      protocol: TCP
+      name: master-port
+    - port: 5679
+      targetPort: actuator-port
+      protocol: TCP
+      name: actuator-port
+  selector:
+    app.kubernetes.io/name: release-name-master
+    app.kubernetes.io/component: master
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-worker-headless.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-worker-headless
+  labels:
+    app.kubernetes.io/name: release-name-worker-headless
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  clusterIP: "None"
+  ports:
+    - port: 1234
+      targetPort: worker-port
+      protocol: TCP
+      name: worker-port
+    - port: 1235
+      targetPort: actuator-port
+      protocol: TCP
+      name: actuator-port
+  selector:
+    app.kubernetes.io/name: release-name-worker
+    app.kubernetes.io/component: worker
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: dolphinscheduler-helm/charts/minio/templates/standalone/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-minio
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: minio
+    helm.sh/chart: minio-11.10.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minio
+      app.kubernetes.io/instance: release-name
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minio
+        helm.sh/chart: minio-11.10.13
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+      annotations:
+        checksum/credentials-secret: d236a7ec1e2e7ef6f3eb0e96a9211efdd9eae0ca3066c4bc5b35dd2e6d865980
+    spec:
+      
+      serviceAccountName: release-name-minio
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: minio
+                    app.kubernetes.io/instance: release-name
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: minio
+          image: docker.io/bitnami/minio:2022.10.29-debian-11-r0
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: MINIO_SCHEME
+              value: "http"
+            - name: MINIO_FORCE_NEW_KEYS
+              value: "no"
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-minio
+                  key: root-user
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-minio
+                  key: root-password
+            - name: MINIO_DEFAULT_BUCKETS
+              value: dolphinscheduler
+            - name: MINIO_BROWSER
+              value: "on"
+            - name: MINIO_PROMETHEUS_AUTH_TYPE
+              value: "public"
+            - name: MINIO_CONSOLE_PORT_NUMBER
+              value: "9001"
+          envFrom:
+          ports:
+            - name: minio-api
+              containerPort: 9000
+              protocol: TCP
+            - name: minio-console
+              containerPort: 9001
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: minio-api
+              scheme: "HTTP"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          readinessProbe:
+            tcpSocket:
+              port: minio-api
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 5
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+# Source: dolphinscheduler-helm/templates/deployment-dolphinscheduler-alert.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-alert
+  labels:
+    app.kubernetes.io/name: release-name-alert
+    app.kubernetes.io/component: alert
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: release-name-alert
+      app.kubernetes.io/component: alert
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/managed-by: Helm
+  strategy:
+    type: "RollingUpdate"
+    rollingUpdate:
+      maxSurge: "25%"
+      maxUnavailable: "25%"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: release-name-alert
+        app.kubernetes.io/component: alert
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name
+      containers:
+        - name: release-name-alert
+          image: apache/dolphinscheduler-alert-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 50052
+              name: "alert-port"
+            - containerPort: 50053
+              name: "actuator-port"
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: SPRING_JACKSON_TIME_ZONE
+              value: Asia/Tokyo
+            - name: DATABASE
+              value: "postgresql"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://release-name-postgresql:5432/dolphinscheduler?characterEncoding=utf8
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-password
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: org.postgresql.Driver
+            - name: REGISTRY_TYPE
+              value: "zookeeper"
+            - name: REGISTRY_ZOOKEEPER_CONNECT_STRING
+              value: release-name-zookeeper:2181
+            
+            - name: JAVA_OPTS
+              value: "-Xms512m -Xmx512m -Xmn256m"
+            
+          envFrom:
+            - configMapRef:
+                name: release-name-common
+          livenessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:50053/actuator/health/liveness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:50053/actuator/health/readiness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - mountPath: "/opt/dolphinscheduler/logs"
+              name: release-name-alert
+            - name: config-volume
+              mountPath: /opt/dolphinscheduler/conf/common.properties
+              subPath: common.properties
+      volumes:
+        - name: release-name-alert
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: release-name-configs
+---
+# Source: dolphinscheduler-helm/templates/deployment-dolphinscheduler-api.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-api
+  labels:
+    app.kubernetes.io/name: release-name-api
+    app.kubernetes.io/component: api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: release-name-api
+      app.kubernetes.io/component: api
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/managed-by: Helm
+  strategy:
+    type: "RollingUpdate"
+    rollingUpdate:
+      maxSurge: "25%"
+      maxUnavailable: "25%"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: release-name-api
+        app.kubernetes.io/component: api
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name
+      containers:
+        - name: release-name-api
+          image: apache/dolphinscheduler-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 12345
+              name: "api-port"
+            - containerPort: 25333
+              name: "python-api-port"
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: SPRING_JACKSON_TIME_ZONE
+              value: Asia/Tokyo
+            - name: DATABASE
+              value: "postgresql"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://release-name-postgresql:5432/dolphinscheduler?characterEncoding=utf8
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-password
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: org.postgresql.Driver
+            - name: REGISTRY_TYPE
+              value: "zookeeper"
+            - name: REGISTRY_ZOOKEEPER_CONNECT_STRING
+              value: release-name-zookeeper:2181
+            - name: SECURITY_AUTHENTICATION_TYPE
+              value: "PASSWORD"
+            
+            - name: JAVA_OPTS
+              value: "-Xms512m -Xmx512m -Xmn256m"
+            
+          envFrom:
+            - configMapRef:
+                name: release-name-common
+          livenessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:12345/dolphinscheduler/actuator/health/liveness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:12345/dolphinscheduler/actuator/health/readiness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - mountPath: "/opt/dolphinscheduler/logs"
+              name: release-name-api
+            - name: config-volume
+              mountPath: /opt/dolphinscheduler/conf/common.properties
+              subPath: common.properties
+            
+            
+            
+            
+      volumes:
+        - name: release-name-api
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: release-name-configs
+---
+# Source: dolphinscheduler-helm/charts/postgresql/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-postgresql
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.3.18
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+  namespace: default
+spec:
+  serviceName: release-name-postgresql-headless
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/instance: release-name
+      role: primary
+  template:
+    metadata:
+      name: release-name-postgresql
+      labels:
+        app.kubernetes.io/name: postgresql
+        helm.sh/chart: postgresql-10.3.18
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        role: primary
+        app.kubernetes.io/component: primary
+    spec:      
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: postgresql
+                    app.kubernetes.io/instance: release-name
+                    app.kubernetes.io/component: primary
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: release-name-postgresql
+          image: docker.io/bitnami/postgresql:11.11.0-debian-10-r71
+          imagePullPolicy: "IfNotPresent"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-postgres-password
+            - name: POSTGRES_USER
+              value: "root"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-password
+            - name: POSTGRES_DB
+              value: "dolphinscheduler"
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "root" -d "dbname=dolphinscheduler" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "root" -d "dbname=dolphinscheduler" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+        - name: data
+          emptyDir: {}
+---
+# Source: dolphinscheduler-helm/charts/zookeeper/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-zookeeper
+  namespace: default
+  labels:
+    app.kubernetes.io/name: zookeeper
+    helm.sh/chart: zookeeper-6.5.3
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: zookeeper
+    role: zookeeper
+spec:
+  serviceName: release-name-zookeeper-headless
+  replicas: 1
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zookeeper
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/component: zookeeper
+  template:
+    metadata:
+      name: release-name-zookeeper
+      labels:
+        app.kubernetes.io/name: zookeeper
+        helm.sh/chart: zookeeper-6.5.3
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: zookeeper
+    spec:
+      
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 1001
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: zookeeper
+                    app.kubernetes.io/instance: release-name
+                    app.kubernetes.io/component: zookeeper
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      containers:
+        - name: zookeeper
+          image: docker.io/bitnami/zookeeper:3.6.2-debian-10-r185
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          command:
+            - bash
+            - -ec
+            - |
+                # Execute entrypoint as usual after obtaining ZOO_SERVER_ID
+                # check ZOO_SERVER_ID in persistent volume via myid
+                # if not present, set based on POD hostname
+                if [[ -f "/bitnami/zookeeper/data/myid" ]]; then
+                  export ZOO_SERVER_ID="$(cat /bitnami/zookeeper/data/myid)"
+                else
+                  HOSTNAME=`hostname -s`
+                  if [[ $HOSTNAME =~ (.*)-([0-9]+)$ ]]; then
+                    ORD=${BASH_REMATCH[2]}
+                    export ZOO_SERVER_ID=$((ORD + 1 ))
+                  else
+                    echo "Failed to get index from hostname $HOST"
+                    exit 1
+                  fi
+                fi
+                exec /entrypoint.sh /run.sh
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          env:
+            - name: ZOO_DATA_LOG_DIR
+              value: ""
+            - name: ZOO_PORT_NUMBER
+              value: "2181"
+            - name: ZOO_TICK_TIME
+              value: "2000"
+            - name: ZOO_INIT_LIMIT
+              value: "10"
+            - name: ZOO_SYNC_LIMIT
+              value: "5"
+            - name: ZOO_MAX_CLIENT_CNXNS
+              value: "60"
+            - name: ZOO_4LW_COMMANDS_WHITELIST
+              value: "srvr,ruok,wchs,cons"
+            - name: ZOO_LISTEN_ALLIPS_ENABLED
+              value: "no"
+            - name: ZOO_AUTOPURGE_INTERVAL
+              value: "0"
+            - name: ZOO_AUTOPURGE_RETAIN_COUNT
+              value: "3"
+            - name: ZOO_MAX_SESSION_TIMEOUT
+              value: "40000"
+            - name: ZOO_SERVERS
+              value: release-name-zookeeper-0.release-name-zookeeper-headless.default.svc.cluster.local:2888:3888::1 
+            - name: ZOO_ENABLE_AUTH
+              value: "no"
+            - name: ZOO_HEAP_SIZE
+              value: "1024"
+            - name: ZOO_LOG_LEVEL
+              value: "ERROR"
+            - name: ALLOW_ANONYMOUS_LOGIN
+              value: "yes"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          ports:
+            
+            - name: client
+              containerPort: 2181
+            
+            
+            - name: follower
+              containerPort: 2888
+            - name: election
+              containerPort: 3888
+          livenessProbe:
+            exec:
+              command: ['/bin/bash', '-c', 'echo "ruok" | timeout 2 nc -w 2 localhost 2181 | grep imok']
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command: ['/bin/bash', '-c', 'echo "ruok" | timeout 2 nc -w 2 localhost 2181 | grep imok']
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/zookeeper
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+# Source: dolphinscheduler-helm/templates/statefulset-dolphinscheduler-master.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-master
+  labels:
+    app.kubernetes.io/name: release-name-master
+    app.kubernetes.io/component: master
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podManagementPolicy: Parallel
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: release-name-master
+      app.kubernetes.io/component: master
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/managed-by: Helm
+  serviceName: release-name-master-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: release-name-master
+        app.kubernetes.io/component: master
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name
+      containers:
+        - name: release-name-master
+          image: apache/dolphinscheduler-master:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5678
+              name: "master-port"
+            - containerPort: 5679
+              name: "actuator-port"
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: SPRING_JACKSON_TIME_ZONE
+              value: Asia/Tokyo
+            - name: DATABASE
+              value: "postgresql"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://release-name-postgresql:5432/dolphinscheduler?characterEncoding=utf8
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-password
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: org.postgresql.Driver
+            - name: REGISTRY_TYPE
+              value: "zookeeper"
+            - name: REGISTRY_ZOOKEEPER_CONNECT_STRING
+              value: release-name-zookeeper:2181
+            
+            - name: JAVA_OPTS
+              value: "-Xms1g -Xmx1g -Xmn512m"
+            
+            - name: MASTER_DISPATCH_TASK_NUM
+              value: "3"
+            
+            - name: MASTER_EXEC_TASK_NUM
+              value: "20"
+            
+            - name: MASTER_EXEC_THREADS
+              value: "100"
+            
+            - name: MASTER_FAILOVER_INTERVAL
+              value: "10m"
+            
+            - name: MASTER_HEARTBEAT_ERROR_THRESHOLD
+              value: "5"
+            
+            - name: MASTER_HOST_SELECTOR
+              value: "LowerWeight"
+            
+            - name: MASTER_KILL_APPLICATION_WHEN_HANDLE_FAILOVER
+              value: "true"
+            
+            - name: MASTER_MAX_HEARTBEAT_INTERVAL
+              value: "10s"
+            
+            - name: MASTER_SERVER_LOAD_PROTECTION_ENABLED
+              value: "false"
+            
+            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_DISK_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_JVM_CPU_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_CPU_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_MEMORY_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: MASTER_STATE_WHEEL_INTERVAL
+              value: "5s"
+            
+            - name: MASTER_TASK_COMMIT_INTERVAL
+              value: "1s"
+            
+            - name: MASTER_TASK_COMMIT_RETRYTIMES
+              value: "5"
+            
+          envFrom:
+            - configMapRef:
+                name: release-name-common
+          livenessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:5679/actuator/health/liveness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:5679/actuator/health/readiness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - mountPath: "/opt/dolphinscheduler/logs"
+              name: release-name-master
+            
+            - name: config-volume
+              mountPath: /opt/dolphinscheduler/conf/common.properties
+              subPath: common.properties
+            
+      volumes:
+        - name: release-name-master
+          emptyDir: {}
+        
+        - name: config-volume
+          configMap:
+            name: release-name-configs
+---
+# Source: dolphinscheduler-helm/templates/statefulset-dolphinscheduler-worker.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-worker
+  labels:
+    app.kubernetes.io/name: release-name-worker
+    app.kubernetes.io/component: worker
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podManagementPolicy: Parallel
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: release-name-worker
+      app.kubernetes.io/component: worker
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/managed-by: Helm
+  serviceName: release-name-worker-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: release-name-worker
+        app.kubernetes.io/component: worker
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name
+      containers:
+        - name: release-name-worker
+          image: apache/dolphinscheduler-worker:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1234
+              name: "worker-port"
+            - containerPort: 1235
+              name: "actuator-port"
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: SPRING_JACKSON_TIME_ZONE
+              value: Asia/Tokyo
+            - name: DATABASE
+              value: "postgresql"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://release-name-postgresql:5432/dolphinscheduler?characterEncoding=utf8
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-password
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: org.postgresql.Driver
+            - name: REGISTRY_TYPE
+              value: "zookeeper"
+            - name: REGISTRY_ZOOKEEPER_CONNECT_STRING
+              value: release-name-zookeeper:2181
+            
+            - name: DEFAULT_TENANT_ENABLED
+              value: "false"
+            
+            - name: WORKER_EXEC_THREADS
+              value: "100"
+            
+            - name: WORKER_HOST_WEIGHT
+              value: "100"
+            
+            - name: WORKER_MAX_HEARTBEAT_INTERVAL
+              value: "10s"
+            
+            - name: WORKER_SERVER_LOAD_PROTECTION_ENABLED
+              value: "false"
+            
+            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_DISK_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_JVM_CPU_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_CPU_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_MEMORY_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
+            - name: WORKER_TENANT_CONFIG_AUTO_CREATE_TENANT_ENABLED
+              value: "true"
+            
+          envFrom:
+            - configMapRef:
+                name: release-name-common
+          livenessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:1235/actuator/health/liveness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["curl", "-s", "http://localhost:1235/actuator/health/readiness"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - mountPath: "/tmp/dolphinscheduler"
+              name: release-name-worker-data
+            - mountPath: "/opt/dolphinscheduler/logs"
+              name: release-name-worker-logs
+            - name: config-volume
+              mountPath: /opt/dolphinscheduler/conf/common.properties
+              subPath: common.properties
+            
+            
+            
+      volumes:
+        - name: release-name-worker-data
+          emptyDir: {}
+        - name: release-name-worker-logs
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: release-name-configs
+---
+# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-alert.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-api.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-master.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-worker.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/ingress.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/keda-autoscaler-worker.yaml
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+################################
+## DolphinScheduler Worker KEDA Scaler
+#################################
+---
+# Source: dolphinscheduler-helm/templates/pvc-dolphinscheduler-alert.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/pvc-dolphinscheduler-api.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/pvc-dolphinscheduler-fs-file.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/pvc-dolphinscheduler-shared.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/secret-external-database.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/secret-external-etcd-ssl.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/secret-external-ldap-ssl.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/secret-registry-database.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+# Source: dolphinscheduler-helm/templates/job-dolphinscheduler-schema-initializer.yaml
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: release-name-db-init-job
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade,post-rollback
+    "helm.sh/hook-weight": "1"
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      restartPolicy: Never
+      initContainers:
+      - name: wait-for-database
+        image: busybox:1.30.1
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-xc', 'for i in $(seq 1 180); do nc -z -w3 release-name-postgresql 5432 && exit 0 || sleep 5; done; exit 1']
+      containers:
+        - name: release-name-db-init-job
+          image: apache/dolphinscheduler-tools:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - tools/bin/upgrade-schema.sh
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: SPRING_JACKSON_TIME_ZONE
+              value: Asia/Tokyo
+            - name: DATABASE
+              value: "postgresql"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://release-name-postgresql:5432/dolphinscheduler?characterEncoding=utf8
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgresql-password
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: org.postgresql.Driver
+            - name: REGISTRY_TYPE
+              value: "zookeeper"
+            - name: REGISTRY_ZOOKEEPER_CONNECT_STRING
+              value: release-name-zookeeper:2181
+          envFrom:
+            - configMapRef:
+                name: release-name-common
