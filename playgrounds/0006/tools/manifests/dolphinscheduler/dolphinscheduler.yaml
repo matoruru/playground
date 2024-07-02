@@ -7,7 +7,7 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-12.1.10
+    helm.sh/chart: minio-11.10.13
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -35,7 +35,7 @@ kind: ServiceAccount
 metadata:
   labels:
     app: dolphinscheduler
-    chart: dolphinscheduler-helm-3.1.0
+    chart: dolphinscheduler-helm-3.2.1
     release: dolphinscheduler
   name: dolphinscheduler
 ---
@@ -47,64 +47,30 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-12.1.10
+    helm.sh/chart: minio-11.10.13
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
   root-user: "bWluaW9hZG1pbg=="
   root-password: "bWluaW9hZG1pbg=="
+  key.json: ""
 ---
 # Source: dolphinscheduler-helm/charts/postgresql/templates/secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: dolphinscheduler-postgresql
-  namespace: "default"
   labels:
     app.kubernetes.io/name: postgresql
-    helm.sh/chart: postgresql-12.3.1
+    helm.sh/chart: postgresql-10.3.18
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+  namespace: default
 type: Opaque
 data:
-  postgres-password: "ZDdQWmxZbWtxbg=="
-  # We don't auto-generate LDAP password when it's not provided as we do for other passwords
----
-# Source: dolphinscheduler-helm/charts/zookeeper/templates/scripts-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: dolphinscheduler-zookeeper-scripts
-  namespace: default
-  labels:
-    app.kubernetes.io/name: zookeeper
-    helm.sh/chart: zookeeper-12.0.0
-    app.kubernetes.io/instance: dolphinscheduler
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: zookeeper
-data:
-  init-certs.sh: |-
-    #!/bin/bash
-  setup.sh: |-
-    #!/bin/bash
-
-    # Execute entrypoint as usual after obtaining ZOO_SERVER_ID
-    # check ZOO_SERVER_ID in persistent volume via myid
-    # if not present, set based on POD hostname
-    if [[ -f "/bitnami/zookeeper/data/myid" ]]; then
-        export ZOO_SERVER_ID="$(cat /bitnami/zookeeper/data/myid)"
-    else
-        HOSTNAME="$(hostname -s)"
-        if [[ $HOSTNAME =~ (.*)-([0-9]+)$ ]]; then
-            ORD=${BASH_REMATCH[2]}
-            export ZOO_SERVER_ID="$((ORD + 1 ))"
-        else
-            echo "Failed to get index from hostname $HOSTNAME"
-            exit 1
-        fi
-    fi
-    exec /entrypoint.sh /run.sh
+  postgresql-postgres-password: "OURpNGhPc2s1Qg=="
+  postgresql-password: "cm9vdA=="
 ---
 # Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-common.yaml
 #
@@ -131,6 +97,7 @@ metadata:
     app.kubernetes.io/name: dolphinscheduler-common
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 data:
   DATAX_LAUNCHER: "/opt/soft/datax/bin/datax.py"
   DATA_BASEDIR_PATH: "/tmp/dolphinscheduler"
@@ -169,16 +136,11 @@ metadata:
     app.kubernetes.io/name: dolphinscheduler-common
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 data:
-  common.properties: |-
+  common_properties: |-
     alert.rpc.port=50052
     appId.collect=log
-    aws.credentials.provider.type=AWSStaticCredentialsProvider
-    aws.s3.access.key.id=minioadmin
-    aws.s3.access.key.secret=minioadmin
-    aws.s3.bucket.name=dolphinscheduler
-    aws.s3.endpoint=http://dolphinscheduler-minio:9000
-    aws.s3.region=ca-central-1
     conda.path=/opt/anaconda3/etc/profile.d/conda.sh
     data-quality.jar.dir=
     data.basedir.path=/tmp/dolphinscheduler
@@ -197,6 +159,11 @@ data:
     resource.alibaba.cloud.oss.bucket.name=dolphinscheduler
     resource.alibaba.cloud.oss.endpoint=https://oss-cn-hangzhou.aliyuncs.com
     resource.alibaba.cloud.region=cn-hangzhou
+    resource.aws.access.key.id=minioadmin
+    resource.aws.region=ca-central-1
+    resource.aws.s3.bucket.name=dolphinscheduler
+    resource.aws.s3.endpoint=http://dolphinscheduler-minio:9000
+    resource.aws.secret.access.key=minioadmin
     resource.azure.client.id=minioadmin
     resource.azure.client.secret=minioadmin
     resource.azure.subId=minioadmin
@@ -220,7 +187,7 @@ metadata:
   name: dolphinscheduler
   labels:
     app: dolphinscheduler
-    chart: "dolphinscheduler-helm-3.1.0"
+    chart: "dolphinscheduler-helm-3.2.1"
     release: "dolphinscheduler"
 rules:
   - apiGroups: [""]
@@ -234,7 +201,7 @@ metadata:
   name: dolphinscheduler
   labels:
     app: dolphinscheduler
-    chart: "dolphinscheduler-helm-3.1.0"
+    chart: "dolphinscheduler-helm-3.2.1"
     release: "dolphinscheduler"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -253,7 +220,7 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-12.1.10
+    helm.sh/chart: minio-11.10.13
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -271,23 +238,22 @@ spec:
     app.kubernetes.io/name: minio
     app.kubernetes.io/instance: dolphinscheduler
 ---
-# Source: dolphinscheduler-helm/charts/postgresql/templates/primary/svc-headless.yaml
+# Source: dolphinscheduler-helm/charts/postgresql/templates/svc-headless.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: dolphinscheduler-postgresql-hl
-  namespace: "default"
+  name: dolphinscheduler-postgresql-headless
   labels:
     app.kubernetes.io/name: postgresql
-    helm.sh/chart: postgresql-12.3.1
+    helm.sh/chart: postgresql-10.3.18
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: primary
     # Use this annotation in addition to the actual publishNotReadyAddresses
     # field below because the annotation will stop being respected soon but the
     # field is broken in some versions of Kubernetes:
     # https://github.com/kubernetes/kubernetes/issues/58662
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  namespace: default
 spec:
   type: ClusterIP
   clusterIP: None
@@ -302,32 +268,29 @@ spec:
   selector:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: dolphinscheduler
-    app.kubernetes.io/component: primary
 ---
-# Source: dolphinscheduler-helm/charts/postgresql/templates/primary/svc.yaml
+# Source: dolphinscheduler-helm/charts/postgresql/templates/svc.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: dolphinscheduler-postgresql
-  namespace: "default"
   labels:
     app.kubernetes.io/name: postgresql
-    helm.sh/chart: postgresql-12.3.1
+    helm.sh/chart: postgresql-10.3.18
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: primary
+  annotations:
+  namespace: default
 spec:
   type: ClusterIP
-  sessionAffinity: None
   ports:
     - name: tcp-postgresql
       port: 5432
       targetPort: tcp-postgresql
-      nodePort: null
   selector:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: dolphinscheduler
-    app.kubernetes.io/component: primary
+    role: primary
 ---
 # Source: dolphinscheduler-helm/charts/zookeeper/templates/svc-headless.yaml
 apiVersion: v1
@@ -337,7 +300,7 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: zookeeper
-    helm.sh/chart: zookeeper-12.0.0
+    helm.sh/chart: zookeeper-6.5.3
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: zookeeper
@@ -346,10 +309,13 @@ spec:
   clusterIP: None
   publishNotReadyAddresses: true
   ports:
+    
     - name: tcp-client
       port: 2181
       targetPort: client
-    - name: tcp-follower
+    
+    
+    - name: follower
       port: 2888
       targetPort: follower
     - name: tcp-election
@@ -368,19 +334,20 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: zookeeper
-    helm.sh/chart: zookeeper-12.0.0
+    helm.sh/chart: zookeeper-6.5.3
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: zookeeper
 spec:
   type: ClusterIP
-  sessionAffinity: None
   ports:
+    
     - name: tcp-client
       port: 2181
       targetPort: client
-      nodePort: null
-    - name: tcp-follower
+    
+    
+    - name: follower
       port: 2888
       targetPort: follower
     - name: tcp-election
@@ -417,6 +384,7 @@ metadata:
     app.kubernetes.io/name: dolphinscheduler-alert
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   ports:
     - port: 50052
@@ -432,6 +400,7 @@ spec:
     app.kubernetes.io/component: alert
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 ---
 # Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-api.yaml
 #
@@ -458,6 +427,7 @@ metadata:
     app.kubernetes.io/name: dolphinscheduler-api
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   type: ClusterIP
   ports:
@@ -474,6 +444,7 @@ spec:
     app.kubernetes.io/component: api
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 ---
 # Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-master-headless.yaml
 #
@@ -500,6 +471,7 @@ metadata:
     app.kubernetes.io/name: dolphinscheduler-master-headless
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   clusterIP: "None"
   ports:
@@ -516,6 +488,7 @@ spec:
     app.kubernetes.io/component: master
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 ---
 # Source: dolphinscheduler-helm/templates/svc-dolphinscheduler-worker-headless.yaml
 #
@@ -542,6 +515,7 @@ metadata:
     app.kubernetes.io/name: dolphinscheduler-worker-headless
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   clusterIP: "None"
   ports:
@@ -558,6 +532,7 @@ spec:
     app.kubernetes.io/component: worker
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 ---
 # Source: dolphinscheduler-helm/charts/minio/templates/standalone/deployment.yaml
 apiVersion: apps/v1
@@ -567,7 +542,7 @@ metadata:
   namespace: "default"
   labels:
     app.kubernetes.io/name: minio
-    helm.sh/chart: minio-12.1.10
+    helm.sh/chart: minio-11.10.13
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -581,11 +556,11 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: minio
-        helm.sh/chart: minio-12.1.10
+        helm.sh/chart: minio-11.10.13
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
       annotations:
-        checksum/credentials-secret: 47e84e084281487dc3c90c279aa1c367a8f63c17b31dac007f15dea8e3a7a965
+        checksum/credentials-secret: 254ffc599f471c03b0d791467a2faa70f0d0f8228cfab2e43603c642091c5f53
     spec:
       
       serviceAccountName: dolphinscheduler-minio
@@ -599,6 +574,8 @@ spec:
                   matchLabels:
                     app.kubernetes.io/name: minio
                     app.kubernetes.io/instance: dolphinscheduler
+                namespaces:
+                  - "default"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -607,7 +584,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: minio
-          image: docker.io/bitnami/minio:2023.2.27-debian-11-r1
+          image: docker.io/bitnami/minio:2022.10.29-debian-11-r0
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsNonRoot: true
@@ -699,6 +676,7 @@ metadata:
     app.kubernetes.io/component: alert
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   replicas: 1
   selector:
@@ -707,6 +685,7 @@ spec:
       app.kubernetes.io/component: alert
       app.kubernetes.io/instance: dolphinscheduler
       app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/version: 3.2.1
   strategy:
     type: "RollingUpdate"
     rollingUpdate:
@@ -719,11 +698,12 @@ spec:
         app.kubernetes.io/component: alert
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 3.2.1
     spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-alert
-          image: apache/dolphinscheduler-alert-server:latest
+          image: apache/dolphinscheduler/dolphinscheduler-alert-server:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 50052
@@ -745,7 +725,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgres-password
+                  key: postgresql-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -780,7 +760,7 @@ spec:
               name: dolphinscheduler-alert
             - name: config-volume
               mountPath: /opt/dolphinscheduler/conf/common.properties
-              subPath: common.properties
+              subPath: common_properties
       volumes:
         - name: dolphinscheduler-alert
           emptyDir: {}
@@ -814,6 +794,7 @@ metadata:
     app.kubernetes.io/component: api
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   replicas: 1
   selector:
@@ -822,6 +803,7 @@ spec:
       app.kubernetes.io/component: api
       app.kubernetes.io/instance: dolphinscheduler
       app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/version: 3.2.1
   strategy:
     type: "RollingUpdate"
     rollingUpdate:
@@ -834,11 +816,12 @@ spec:
         app.kubernetes.io/component: api
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 3.2.1
     spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-api
-          image: apache/dolphinscheduler-api:latest
+          image: apache/dolphinscheduler/dolphinscheduler-api:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 12345
@@ -860,7 +843,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgres-password
+                  key: postgresql-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -897,7 +880,7 @@ spec:
               name: dolphinscheduler-api
             - name: config-volume
               mountPath: /opt/dolphinscheduler/conf/common.properties
-              subPath: common.properties
+              subPath: common_properties
             
             
             
@@ -909,41 +892,40 @@ spec:
           configMap:
             name: dolphinscheduler-configs
 ---
-# Source: dolphinscheduler-helm/charts/postgresql/templates/primary/statefulset.yaml
+# Source: dolphinscheduler-helm/charts/postgresql/templates/statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dolphinscheduler-postgresql
-  namespace: "default"
   labels:
     app.kubernetes.io/name: postgresql
-    helm.sh/chart: postgresql-12.3.1
+    helm.sh/chart: postgresql-10.3.18
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: primary
+  annotations:
+  namespace: default
 spec:
+  serviceName: dolphinscheduler-postgresql-headless
   replicas: 1
-  serviceName: dolphinscheduler-postgresql-hl
   updateStrategy:
-    rollingUpdate: {}
     type: RollingUpdate
   selector:
     matchLabels:
       app.kubernetes.io/name: postgresql
       app.kubernetes.io/instance: dolphinscheduler
-      app.kubernetes.io/component: primary
+      role: primary
   template:
     metadata:
       name: dolphinscheduler-postgresql
       labels:
         app.kubernetes.io/name: postgresql
-        helm.sh/chart: postgresql-12.3.1
+        helm.sh/chart: postgresql-10.3.18
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
+        role: primary
         app.kubernetes.io/component: primary
-    spec:
-      serviceAccountName: default
-      
+    spec:      
       affinity:
         podAffinity:
           
@@ -955,18 +937,22 @@ spec:
                     app.kubernetes.io/name: postgresql
                     app.kubernetes.io/instance: dolphinscheduler
                     app.kubernetes.io/component: primary
+                namespaces:
+                  - "default"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
           
       securityContext:
         fsGroup: 1001
-      hostNetwork: false
-      hostIPC: false
       containers:
-        - name: postgresql
-          image: docker.io/bitnami/postgresql:15.2.0-debian-11-r24
+        - name: dolphinscheduler-postgresql
+          image: docker.io/bitnami/postgresql:11.11.0-debian-10-r71
           imagePullPolicy: "IfNotPresent"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
           securityContext:
             runAsUser: 1001
           env:
@@ -978,22 +964,24 @@ spec:
               value: "/bitnami/postgresql"
             - name: PGDATA
               value: "/bitnami/postgresql/data"
-            # Authentication
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dolphinscheduler-postgresql
+                  key: postgresql-postgres-password
+            - name: POSTGRES_USER
+              value: "root"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgres-password
-            # Replication
-            # Initdb
-            # Standby
-            # LDAP
+                  key: postgresql-password
+            - name: POSTGRES_DB
+              value: "dolphinscheduler"
             - name: POSTGRESQL_ENABLE_LDAP
               value: "no"
-            # TLS
             - name: POSTGRESQL_ENABLE_TLS
               value: "no"
-            # Audit
             - name: POSTGRESQL_LOG_HOSTNAME
               value: "false"
             - name: POSTGRESQL_LOG_CONNECTIONS
@@ -1002,7 +990,6 @@ spec:
               value: "false"
             - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
               value: "off"
-            # Others
             - name: POSTGRESQL_CLIENT_MIN_MESSAGES
               value: "error"
             - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
@@ -1011,54 +998,40 @@ spec:
             - name: tcp-postgresql
               containerPort: 5432
           livenessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
             exec:
               command:
                 - /bin/sh
                 - -c
-                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
-          readinessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 5
+                - exec pg_isready -U "root" -d "dbname=dolphinscheduler" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
                 - -e
-                
                 - |
-                  exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+                  exec pg_isready -U "root" -d "dbname=dolphinscheduler" -h 127.0.0.1 -p 5432
                   [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
-          resources:
-            limits: {}
-            requests:
-              cpu: 250m
-              memory: 256Mi
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
-            - name: data
-              mountPath: /bitnami/postgresql
       volumes:
         - name: dshm
           emptyDir:
             medium: Memory
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "8Gi"
+            sizeLimit: 1Gi
+        - name: data
+          emptyDir: {}
 ---
 # Source: dolphinscheduler-helm/charts/zookeeper/templates/statefulset.yaml
 apiVersion: apps/v1
@@ -1068,35 +1041,36 @@ metadata:
   namespace: default
   labels:
     app.kubernetes.io/name: zookeeper
-    helm.sh/chart: zookeeper-12.0.0
+    helm.sh/chart: zookeeper-6.5.3
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: zookeeper
     role: zookeeper
 spec:
+  serviceName: dolphinscheduler-zookeeper-headless
   replicas: 1
   podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app.kubernetes.io/name: zookeeper
       app.kubernetes.io/instance: dolphinscheduler
       app.kubernetes.io/component: zookeeper
-  serviceName: dolphinscheduler-zookeeper-headless
-  updateStrategy:
-    rollingUpdate: {}
-    type: RollingUpdate
   template:
     metadata:
-      annotations:
+      name: dolphinscheduler-zookeeper
       labels:
         app.kubernetes.io/name: zookeeper
-        helm.sh/chart: zookeeper-12.0.0
+        helm.sh/chart: zookeeper-6.5.3
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: zookeeper
     spec:
-      serviceAccountName: default
       
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 1001
       affinity:
         podAffinity:
           
@@ -1108,31 +1082,43 @@ spec:
                     app.kubernetes.io/name: zookeeper
                     app.kubernetes.io/instance: dolphinscheduler
                     app.kubernetes.io/component: zookeeper
+                namespaces:
+                  - "default"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
           
-      securityContext:
-        fsGroup: 1001
-      initContainers:
       containers:
         - name: zookeeper
-          image: docker.io/bitnami/zookeeper:3.9.0-debian-11-r0
+          image: docker.io/bitnami/zookeeper:3.6.2-debian-10-r185
           imagePullPolicy: "IfNotPresent"
           securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
             runAsUser: 1001
           command:
-            - /scripts/setup.sh
+            - bash
+            - -ec
+            - |
+                # Execute entrypoint as usual after obtaining ZOO_SERVER_ID
+                # check ZOO_SERVER_ID in persistent volume via myid
+                # if not present, set based on POD hostname
+                if [[ -f "/bitnami/zookeeper/data/myid" ]]; then
+                  export ZOO_SERVER_ID="$(cat /bitnami/zookeeper/data/myid)"
+                else
+                  HOSTNAME=`hostname -s`
+                  if [[ $HOSTNAME =~ (.*)-([0-9]+)$ ]]; then
+                    ORD=${BASH_REMATCH[2]}
+                    export ZOO_SERVER_ID=$((ORD + 1 ))
+                  else
+                    echo "Failed to get index from hostname $HOST"
+                    exit 1
+                  fi
+                fi
+                exec /entrypoint.sh /run.sh
           resources:
-            limits: {}
             requests:
               cpu: 250m
               memory: 256Mi
           env:
-            - name: BITNAMI_DEBUG
-              value: "false"
             - name: ZOO_DATA_LOG_DIR
               value: ""
             - name: ZOO_PORT_NUMBER
@@ -1143,10 +1129,6 @@ spec:
               value: "10"
             - name: ZOO_SYNC_LIMIT
               value: "5"
-            - name: ZOO_PRE_ALLOC_SIZE
-              value: "65536"
-            - name: ZOO_SNAPCOUNT
-              value: "100000"
             - name: ZOO_MAX_CLIENT_CNXNS
               value: "60"
             - name: ZOO_4LW_COMMANDS_WHITELIST
@@ -1163,8 +1145,6 @@ spec:
               value: dolphinscheduler-zookeeper-0.dolphinscheduler-zookeeper-headless.default.svc.cluster.local:2888:3888::1 
             - name: ZOO_ENABLE_AUTH
               value: "no"
-            - name: ZOO_ENABLE_QUORUM_AUTH
-              value: "no"
             - name: ZOO_HEAP_SIZE
               value: "1024"
             - name: ZOO_LOG_LEVEL
@@ -1177,39 +1157,35 @@ spec:
                   apiVersion: v1
                   fieldPath: metadata.name
           ports:
+            
             - name: client
               containerPort: 2181
+            
+            
             - name: follower
               containerPort: 2888
             - name: election
               containerPort: 3888
           livenessProbe:
-            failureThreshold: 6
+            exec:
+              command: ['/bin/bash', '-c', 'echo "ruok" | timeout 2 nc -w 2 localhost 2181 | grep imok']
             initialDelaySeconds: 30
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
             exec:
               command: ['/bin/bash', '-c', 'echo "ruok" | timeout 2 nc -w 2 localhost 2181 | grep imok']
-          readinessProbe:
-            failureThreshold: 6
             initialDelaySeconds: 5
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
-            exec:
-              command: ['/bin/bash', '-c', 'echo "ruok" | timeout 2 nc -w 2 localhost 2181 | grep imok']
+            successThreshold: 1
+            failureThreshold: 6
           volumeMounts:
-            - name: scripts
-              mountPath: /scripts/setup.sh
-              subPath: setup.sh
             - name: data
               mountPath: /bitnami/zookeeper
       volumes:
-        - name: scripts
-          configMap:
-            name: dolphinscheduler-zookeeper-scripts
-            defaultMode: 0755
         - name: data
           emptyDir: {}
 ---
@@ -1239,6 +1215,7 @@ metadata:
     app.kubernetes.io/component: master
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   podManagementPolicy: Parallel
   replicas: 3
@@ -1248,6 +1225,7 @@ spec:
       app.kubernetes.io/component: master
       app.kubernetes.io/instance: dolphinscheduler
       app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/version: 3.2.1
   serviceName: dolphinscheduler-master-headless
   template:
     metadata:
@@ -1256,11 +1234,12 @@ spec:
         app.kubernetes.io/component: master
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 3.2.1
     spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-master
-          image: apache/dolphinscheduler-master:latest
+          image: apache/dolphinscheduler/dolphinscheduler-master:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5678
@@ -1282,7 +1261,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgres-password
+                  key: postgresql-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -1320,13 +1299,13 @@ spec:
             - name: MASTER_SERVER_LOAD_PROTECTION_ENABLED
               value: "false"
             
+            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_CPU_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
             - name: MASTER_SERVER_LOAD_PROTECTION_MAX_DISK_USAGE_PERCENTAGE_THRESHOLDS
               value: "0.7"
             
-            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_JVM_CPU_USAGE_PERCENTAGE_THRESHOLDS
-              value: "0.7"
-            
-            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_CPU_USAGE_PERCENTAGE_THRESHOLDS
+            - name: MASTER_SERVER_LOAD_PROTECTION_MAX_JVM_MEMORY_USAGE_PERCENTAGE_THRESHOLDS
               value: "0.7"
             
             - name: MASTER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_MEMORY_USAGE_PERCENTAGE_THRESHOLDS
@@ -1366,7 +1345,7 @@ spec:
             
             - name: config-volume
               mountPath: /opt/dolphinscheduler/conf/common.properties
-              subPath: common.properties
+              subPath: common_properties
             
       volumes:
         - name: dolphinscheduler-master
@@ -1402,6 +1381,7 @@ metadata:
     app.kubernetes.io/component: worker
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
 spec:
   podManagementPolicy: Parallel
   replicas: 3
@@ -1411,6 +1391,7 @@ spec:
       app.kubernetes.io/component: worker
       app.kubernetes.io/instance: dolphinscheduler
       app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/version: 3.2.1
   serviceName: dolphinscheduler-worker-headless
   template:
     metadata:
@@ -1419,11 +1400,12 @@ spec:
         app.kubernetes.io/component: worker
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 3.2.1
     spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-worker
-          image: apache/dolphinscheduler-worker:latest
+          image: apache/dolphinscheduler/dolphinscheduler-worker:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 1234
@@ -1445,7 +1427,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgres-password
+                  key: postgresql-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
@@ -1468,13 +1450,13 @@ spec:
             - name: WORKER_SERVER_LOAD_PROTECTION_ENABLED
               value: "false"
             
+            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_CPU_USAGE_PERCENTAGE_THRESHOLDS
+              value: "0.7"
+            
             - name: WORKER_SERVER_LOAD_PROTECTION_MAX_DISK_USAGE_PERCENTAGE_THRESHOLDS
               value: "0.7"
             
-            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_JVM_CPU_USAGE_PERCENTAGE_THRESHOLDS
-              value: "0.7"
-            
-            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_CPU_USAGE_PERCENTAGE_THRESHOLDS
+            - name: WORKER_SERVER_LOAD_PROTECTION_MAX_JVM_MEMORY_USAGE_PERCENTAGE_THRESHOLDS
               value: "0.7"
             
             - name: WORKER_SERVER_LOAD_PROTECTION_MAX_SYSTEM_MEMORY_USAGE_PERCENTAGE_THRESHOLDS
@@ -1482,6 +1464,9 @@ spec:
             
             - name: WORKER_TENANT_CONFIG_AUTO_CREATE_TENANT_ENABLED
               value: "true"
+            
+            - name: WORKER_TENANT_CONFIG_DISTRIBUTED_TENANT
+              value: "false"
             
           envFrom:
             - configMapRef:
@@ -1509,7 +1494,7 @@ spec:
               name: dolphinscheduler-worker-logs
             - name: config-volume
               mountPath: /opt/dolphinscheduler/conf/common.properties
-              subPath: common.properties
+              subPath: common_properties
             
             
             
@@ -1521,78 +1506,6 @@ spec:
         - name: config-volume
           configMap:
             name: dolphinscheduler-configs
----
-# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-alert.yaml
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
----
-# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-api.yaml
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
----
-# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-master.yaml
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
----
-# Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-worker.yaml
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 ---
 # Source: dolphinscheduler-helm/templates/ingress.yaml
 #
@@ -1802,6 +1715,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dolphinscheduler
     app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 3.2.1
   annotations:
     "helm.sh/hook": post-install,post-upgrade,post-rollback
     "helm.sh/hook-weight": "1"
@@ -1811,6 +1725,7 @@ spec:
       labels:
         app.kubernetes.io/instance: dolphinscheduler
         app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 3.2.1
     spec:
       restartPolicy: Never
       initContainers:
@@ -1820,7 +1735,7 @@ spec:
         command: ['sh', '-xc', 'for i in $(seq 1 180); do nc -z -w3 dolphinscheduler-postgresql 5432 && exit 0 || sleep 5; done; exit 1']
       containers:
         - name: dolphinscheduler-db-init-job
-          image: apache/dolphinscheduler-tools:latest
+          image: apache/dolphinscheduler/dolphinscheduler-tools:3.2.1
           imagePullPolicy: IfNotPresent
           args:
             - tools/bin/upgrade-schema.sh
@@ -1839,7 +1754,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: dolphinscheduler-postgresql
-                  key: postgres-password
+                  key: postgresql-password
             - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
               value: org.postgresql.Driver
             - name: REGISTRY_TYPE
