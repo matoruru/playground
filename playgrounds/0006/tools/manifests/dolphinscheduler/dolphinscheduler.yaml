@@ -69,7 +69,7 @@ metadata:
   namespace: default
 type: Opaque
 data:
-  postgresql-postgres-password: "OURpNGhPc2s1Qg=="
+  postgresql-postgres-password: "ZVNtRmFqeTh6Rg=="
   postgresql-password: "cm9vdA=="
 ---
 # Source: dolphinscheduler-helm/templates/configmap-dolphinscheduler-common.yaml
@@ -703,7 +703,7 @@ spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-alert
-          image: apache/dolphinscheduler/dolphinscheduler-alert-server:3.2.1
+          image: apache/dolphinscheduler-alert-server:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 50052
@@ -821,7 +821,7 @@ spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-api
-          image: apache/dolphinscheduler/dolphinscheduler-api:3.2.1
+          image: apache/dolphinscheduler-api:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 12345
@@ -1239,7 +1239,7 @@ spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-master
-          image: apache/dolphinscheduler/dolphinscheduler-master:3.2.1
+          image: apache/dolphinscheduler-master:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5678
@@ -1405,7 +1405,7 @@ spec:
       serviceAccountName: dolphinscheduler
       containers:
         - name: dolphinscheduler-worker
-          image: apache/dolphinscheduler/dolphinscheduler-worker:3.2.1
+          image: apache/dolphinscheduler-worker:3.2.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 1234
@@ -1735,7 +1735,7 @@ spec:
         command: ['sh', '-xc', 'for i in $(seq 1 180); do nc -z -w3 dolphinscheduler-postgresql 5432 && exit 0 || sleep 5; done; exit 1']
       containers:
         - name: dolphinscheduler-db-init-job
-          image: apache/dolphinscheduler/dolphinscheduler-tools:3.2.1
+          image: apache/dolphinscheduler-tools:3.2.1
           imagePullPolicy: IfNotPresent
           args:
             - tools/bin/upgrade-schema.sh
