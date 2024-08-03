@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: qemu-user-static
-        image: matoruru/qemu-user-static:multiarch-1.0.0
+        image: matoruru/qemu-user-static:arm64-latest
         command: ["/bin/sh", "-c", "/register --reset -p yes && sleep infinity"]
         securityContext:
           privileged: true
