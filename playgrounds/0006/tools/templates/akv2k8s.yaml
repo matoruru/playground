@@ -18,6 +18,8 @@ spec:
           keyVaultAuth: environment
           envFromSecret:
           - akv2k8s-creds
+        env_injector:
+          enabled: false
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
