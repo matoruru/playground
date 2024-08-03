@@ -10,3 +10,4 @@ resources:
 - argocd-tls-certs-cm.yaml
 - argocd-gpg-keys-cm.yaml
 - argocd-repositories.yaml
+- mysecretproviderclass.yaml
