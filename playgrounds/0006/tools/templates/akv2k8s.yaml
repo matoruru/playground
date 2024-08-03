@@ -11,7 +11,7 @@ spec:
   source:
     chart: akv2k8s
     repoURL: https://charts.spvapi.no
-    targetRevision: 2.16.0
+    targetRevision: 2.6.0
     helm:
       valuesObject:
         global:
