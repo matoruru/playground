@@ -14,6 +14,7 @@ spec:
       containers:
       - name: qemu-user-static
         image: matoruru/qemu-user-static:arm64-latest
+        imagePullPolicy: Always
         command: ["/bin/sh", "-c", "/register --reset -p yes && sleep infinity"]
         securityContext:
           privileged: true
