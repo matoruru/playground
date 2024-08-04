@@ -4,10 +4,9 @@ kind: Kustomization
 resources:
 - argocd-cm.yaml
 - argocd-cmd-params-cm.yaml
-- argocd-secret.sealedsecret.yaml
+- argocd-secret.akv2k8s.yaml
 - argocd-rbac-cm.yaml
 - argocd-ssh-known-hosts-cm.yaml
 - argocd-tls-certs-cm.yaml
 - argocd-gpg-keys-cm.yaml
 - argocd-repositories.yaml
-- mysecret.yaml
