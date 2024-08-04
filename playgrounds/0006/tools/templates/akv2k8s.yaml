@@ -26,9 +26,3 @@ spec:
     automated:
       selfHeal: true
       prune: true
-
-
-kubectl create secret generic akv2k8s-creds -n akv2k8s \
-  --from-literal=AZURE_CLIENT_ID=<CLIENT_ID> \
-  --from-literal=AZURE_CLIENT_SECRET=<CLIENT_SECRET> \
-  --from-literal=AZURE_TENANT_ID=<TENANT_ID>
