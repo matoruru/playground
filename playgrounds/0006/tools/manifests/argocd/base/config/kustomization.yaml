@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - argocd-cm.yaml
 - argocd-cmd-params-cm.yaml
-- argocd-secret.akv2k8s.yaml
+- argocd-secret.akv.yaml
 - argocd-rbac-cm.yaml
 - argocd-ssh-known-hosts-cm.yaml
 - argocd-tls-certs-cm.yaml
