@@ -19,7 +19,7 @@ spec:
           envFromSecret:
           - name: akv2k8s-creds
         env_injector:
-          enabled: true
+          enabled: false
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
