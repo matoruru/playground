@@ -47,13 +47,13 @@ Nginxの複数PodをデプロイするためのKubernetesマニフェストで�
 
 My personal Home-Kubernetes project's manifest.
 
-The components are:
-
-- MetalLB (External Load balancer)
-- NGINX Ingress Controller
-- Argo CD (GitOps, self-managed)
-
 私のおうちKubernetesで使っているマニフェストファイルです。使用しているツール群は上記の英語版を参照してください。
+
+**NOTE**
+
+This playground has been closed. Moved to [matoruru/home-kubernetes](https://github.com/matoruru/home-kubernetes).
+
+お引越ししました。
 
 ## [0007](/playgrounds/0007)
 
