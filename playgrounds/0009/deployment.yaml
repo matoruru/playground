@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: busybox
+        command:
+        - sh
+        - -c
+        - tail -f /dev/null
+        volumeMounts:
+        - mountPath: "/mnt/data"
+          name: volume
+          readOnly: false
+      volumes:
+      - name: volume
+        persistentVolumeClaim:
+          claimName: azure-blob-storage
