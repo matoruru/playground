@@ -7,10 +7,10 @@ if [ $# -eq 1 ]; then
   playgroundName="$1"
 fi
 
-prefix='playground-'
+prefix='playgrounds/'
 
 while [[ -z "$playgroundName" ]]; do
-  read -p "Name of the new playground?: (descriptive one is better) " playgroundName
+  read -p "Name of the new playground?: " playgroundName
 done
 
 folderName="$prefix$playgroundName"
