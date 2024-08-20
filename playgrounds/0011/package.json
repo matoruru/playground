@@ -12,6 +12,7 @@
     "@azure/identity": "^4.4.1",
     "@azure/keyvault-secrets": "^4.8.0",
     "@kubernetes/client-node": "^0.21.0",
+    "yaml": "^2.5.0",
     "zod": "^3.23.8"
   }
 }
