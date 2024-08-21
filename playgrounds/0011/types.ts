@@ -1,5 +1,6 @@
 import { z } from "zod"
 
+// `data` property of K8s Secret.
 export const secretDataSchema = z.object({
   key: z.string(),
   value: z.string()
@@ -18,6 +19,17 @@ export const mappingSchema = z.object({
 })
 export type Mapping = z.infer<typeof mappingSchema>
 
+/**
+ * Expects the following format:
+ * 
+ * vaultName: keyVaultName
+ * secretName: yourK8sSecretName
+ * mapping:
+ * - secretName: keyVaultSecret1
+ *   secretKey: K8sSecretKey1
+ * - secretName: keyVaultSecret2
+ *   secretKey: K8sSecretKey2
+ */
 export const configSchema = z.object({
   vaultName: z.string(),
   secretName: z.string(),
