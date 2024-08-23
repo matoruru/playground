@@ -89,3 +89,15 @@ mountOptions:
 - --file-cache-timeout-in-seconds=0
 - -o direct_io=true
 ```
+
+## [0010](/playgrounds/0010)
+
+Tried to manipurate Azure resources with Terraform.
+
+TerraformでAKSリソースを作ってみました。
+
+## [0011](/playgrounds/0011)
+
+Tried to create Kubernetes resources with TypeScript k8s client library. **Failed. It didn't work well with my cluster...**
+
+TypeScriptのk8sクライアントライブラリでリソースを作ります。（失敗！😢なぜかTLSのエラーが出てうまくいきませんでした）
