@@ -5,7 +5,7 @@ export const secretDataSchema = z.object({
   key: z.string(),
   value: z.string()
 })
-export type Data = z.infer<typeof secretDataSchema>
+export type SecretData = z.infer<typeof secretDataSchema>
 
 export const secretSchema = z.object({
   secretName: z.string(),
@@ -36,3 +36,6 @@ export const configSchema = z.object({
   mapping: z.array(mappingSchema).nonempty()
 })
 export type Config = z.infer<typeof configSchema>
+
+export const namespaceSchema = z.string({ message: 'Target namespace is required.' })
+export type Namespace = z.infer<typeof namespaceSchema>
