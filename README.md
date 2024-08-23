@@ -75,3 +75,17 @@ Ghost user (👻) is contributing in this folder (check the Git history).
 
 - [I got HAUNTED on GitHub...👻😭👻 - DEV Community](https://dev.to/matoruru/i-got-haunted-on-github-46d9) (英語, English)
 - [GitHub上で心霊現象に巻き込まれました・・・。 - Qiita](https://qiita.com/matoruru/items/7a13e7677af1cd4076f3) (日本語, Japanese)
+
+## [0009](/playgrounds/0009)
+
+Experimentation for mounting Azure Blob Storage on k8s container without file caching. Without this way, the update from Blob Storage won't reflect into mounted directory.
+
+Azure Blob Storageをk8sコンテナにマウントする際のキャッシュを無効にする実験をしました。この対策をしないと、Blob Storage側で更新が行われたときに反映されません。
+
+```
+# This is the important part!
+mountOptions:
+- --use-attr-cache=false
+- --file-cache-timeout-in-seconds=0
+- -o direct_io=true
+```
