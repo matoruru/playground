@@ -19,7 +19,8 @@ ElysiaJSでサーバーを作りました。Node.jsではなくBunで動かし�
 Why `readinessProbe.initialDelaySeconds` is bad?
 For more explanation and experimentation, please proceed to [playgrounds/0002](/playgrounds/0002) folder.
 
-なぜ`readinessProbe.initialDelaySeconds`が良くないのでしょうか？詳しい説明や検証内容については[playgrounds/0002](/playgrounds/0002)をご覧ください。
+なぜ`readinessProbe.initialDelaySeconds`が良くないのでしょうか？詳しい説明や検証内容については[playgro
+
 
 ## [0003](/playgrounds/0003)
 
