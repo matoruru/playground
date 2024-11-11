@@ -16,7 +16,7 @@ on:
       - closed
 jobs:
   ci:
-    environment: ci
+    environment: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
