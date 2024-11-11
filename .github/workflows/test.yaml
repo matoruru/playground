@@ -17,6 +17,7 @@ on:
 jobs:
   ci:
     environment: ci
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [22.9.0]
@@ -25,5 +26,6 @@ jobs:
   build:
     needs: ['ci']
     environment: build
+    runs-on: ubuntu-latest
     steps:
       - run: echo hello
