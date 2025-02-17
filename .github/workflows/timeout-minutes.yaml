@@ -8,3 +8,4 @@ jobs:
     runs-on: raspi-playground
     steps:
     - run: sleep 36000
+      timeout-minutes: 2
