@@ -1,0 +1,10 @@
+name: Try Timeout minutes
+on:
+  workflow_dispatch:
+
+jobs:
+  Job1:
+    timeout-minutes: 1
+    runs-on: raspi-playground
+    steps:
+    - run: sleep 36000
