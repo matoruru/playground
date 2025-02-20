@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Job1:
+  job1:
     runs-on: raspi-playground
     steps:
     - run: |
@@ -12,7 +12,8 @@ jobs:
           echo $i
           sleep 1
         done
-  Job2:
+  job2:
+    needs: ['job1']
     runs-on: raspi-playground
     steps:
     - run: |
@@ -21,7 +22,8 @@ jobs:
           echo $i
           sleep 1
         done
-  Job3:
+  job3:
+    needs: ['job2']
     runs-on: raspi-playground
     steps:
     - run: |
