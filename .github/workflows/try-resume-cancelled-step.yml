@@ -1,1 +1,32 @@
+name: Try Resume a cancelled job
+on:
+  workflow_dispatch:
 
+jobs:
+  Job1:
+    runs-on: raspi-playground
+    steps:
+    - run: |
+        for ((i = 1; i <= 30; i++))
+        do
+          echo $i
+          sleep 1
+        done
+  Job2:
+    runs-on: raspi-playground
+    steps:
+    - run: |
+        for ((i = 1; i <= 30; i++))
+        do
+          echo $i
+          sleep 1
+        done
+  Job3:
+    runs-on: raspi-playground
+    steps:
+    - run: |
+        for ((i = 1; i <= 30; i++))
+        do
+          echo $i
+          sleep 1
+        done
