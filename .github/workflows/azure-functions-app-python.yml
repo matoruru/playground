@@ -42,6 +42,10 @@ jobs:
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@v4
+    
+    - name: Install Azure CLI
+      run: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
     - name: Azure CLI Version
       run: |
