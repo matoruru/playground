@@ -28,7 +28,7 @@ on:
     branches: ["main"]
 
 env:
-  AZURE_FUNCTIONAPP_NAME: 'my-first-python-function'   # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_NAME: 'my-second-python-function-app'   # set this to your function app name on Azure
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './playgrounds/0013'       # set this to the path to your function app project, defaults to the repository root
   PYTHON_VERSION: '3.9'                     # set this to the python version to use (e.g. '3.6', '3.7', '3.8')
   AZ_CLIENT_ID: '78ae3d5a-9ca2-418d-b571-26adfd5b86fc'
