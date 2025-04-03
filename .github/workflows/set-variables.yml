@@ -1,4 +1,9 @@
 name: Set variables
+
+permissions:
+  id-token: write
+  contents: write
+
 on:
   workflow_dispatch:
 
