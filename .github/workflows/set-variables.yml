@@ -18,6 +18,6 @@ jobs:
         && sudo apt-get install gh -y
     - name: Set variables
       run: |
-        gh auth login --with-token <<< ${{ secrets.GH_PAT }}
+        #gh auth login --with-token <<< ${{ secrets.GH_PAT }}
         echo "TEST_VAR=test-value" >> variables.env
         gh variable set -f variables.env
