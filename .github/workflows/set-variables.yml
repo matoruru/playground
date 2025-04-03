@@ -7,8 +7,6 @@ jobs:
     runs-on: raspi-playground
     steps:
     - uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.GH_PAT }}
     - name: Install GitHub CLI
       run: |
         # https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
@@ -18,7 +16,6 @@ jobs:
         && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
         && sudo apt-get update \
         && sudo apt-get install gh -y
-
     - name: Set variables
       run: |
         gh auth login --with-token <<< ${{ secrets.GH_PAT }}
