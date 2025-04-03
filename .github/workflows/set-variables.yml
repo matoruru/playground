@@ -1,9 +1,5 @@
 name: Set variables
 
-permissions:
-  id-token: write
-  contents: write
-
 on:
   workflow_dispatch:
 
@@ -23,7 +19,7 @@ jobs:
         && sudo apt-get install gh -y
     - name: Set variables
       env:
-        GH_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ secrets.GH_PAT }}
       run: |
         echo "TEST_VAR=test-value" >> variables.env
         gh variable set -f variables.env
