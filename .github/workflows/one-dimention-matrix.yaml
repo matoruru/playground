@@ -1,6 +1,7 @@
 name: 1D Matrix Example
 
-on: [push]
+on:
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -19,4 +20,4 @@ jobs:
 
     steps:
       - run: |
-          echo Hello, ${{ matrix.name }}(${{ matrix.age }})!
+          echo 'Hello, ${{ matrix.name }}(${{ matrix.age }})!'
