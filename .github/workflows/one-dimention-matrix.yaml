@@ -1,0 +1,22 @@
+name: 1D Matrix Example
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - name: Alice
+            age: 10
+          - name: Bob
+            age: 18
+          - name: Charlie
+            age: 12
+
+    runs-on: raspi-playground
+    name: Run for ${{ matrix.name }} (${{ matrix.age }})
+
+    steps:
+      - run: |
+          echo Hello, ${{ matrix.name }}(${{ matrix.age }})!
