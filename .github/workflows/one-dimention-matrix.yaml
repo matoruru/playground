@@ -1,7 +1,17 @@
 name: 1D Matrix Example
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      Alice_age:
+        type: number
+        default: 10
+      Bob_age:
+        type: number
+        default: 18
+      Charlie_age:
+        type: number
+        default: 12
 
 jobs:
   build:
@@ -9,11 +19,11 @@ jobs:
       matrix:
         include:
           - name: Alice
-            age: 10
+            age: ${{ inputs.Alice_age }}
           - name: Bob
-            age: 18
+            age: ${{ inputs.Bob_age }}
           - name: Charlie
-            age: 12
+            age: ${{ inputs.Charlie_age }}
 
     runs-on: raspi-playground
     name: Run for ${{ matrix.name }} (${{ matrix.age }})
