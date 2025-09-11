@@ -1,4 +1,4 @@
-# bun-react-template
+# React - Azure Access Token Generator App
 
 To install dependencies:
 
@@ -17,5 +17,3 @@ To run for production:
 ```bash
 bun start
 ```
-
-This project was created using `bun init` in bun v1.2.19. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
